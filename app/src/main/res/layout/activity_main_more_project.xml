@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="7dp"
+    android:layout_marginRight="3dp"
+    android:layout_marginTop="7dp">
+    <TextView
+        android:id="@+id/home_title_project"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:textSize="14dp"
+        android:textColor="@color/grey_600"
+        android:text="My Project"/>
+    <Button
+        android:id="@+id/btn_all_projects"
+        android:padding="0dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textSize="14dp"
+        android:layout_centerVertical="true"
+        android:background="@color/transparent"
+        android:drawableEnd="@drawable/exo_ic_chevron_right"
+        android:drawableTint="@color/grey_600"
+        android:textColor="@color/grey_600"
+        android:text="All Projects"
+        android:textAllCaps="false"/>
+</RelativeLayout>

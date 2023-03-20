@@ -1,0 +1,42 @@
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey_200"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_main_nav_bar"/>
+    <include layout="@layout/activity_main_card"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="52dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <include layout="@layout/activity_main_more_project"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_project"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="-7dp"/>
+
+            <include layout="@layout/activity_main_more_trans"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_transaction_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" 
+                android:layout_marginTop="10dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+    <include layout="@layout/activity_main_nav_bar_bottom"/>
+
+</RelativeLayout>

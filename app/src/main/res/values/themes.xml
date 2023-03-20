@@ -1,0 +1,61 @@
+<resources xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Base application theme. -->
+    <style name="Theme.MyApplication" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/blue_600</item>
+        <item name="colorPrimaryVariant">@color/blue_500</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue_600</item>
+        <item name="colorSecondaryVariant">@color/blue_100</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/grey_200</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="ButtonSuccess" parent="android:style/Widget.Button">
+        <item name="backgroundTint">@null</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/back_btn_round_success</item>
+    </style>
+
+    <style name="ButtonDanger" parent="android:style/Widget.Button">
+        <item name="backgroundTint">@null</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/back_btn_round_danger</item>
+    </style>
+
+    <style name="ButtonPrimary" parent="android:style/Widget.Button">
+        <item name="backgroundTint">@null</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/back_btn_round_primary</item>
+    </style>
+
+    <style name="ButtonWhite" parent="android:style/Widget.Button">
+        <item name="backgroundTint">@null</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:textColor">@color/blue_500</item>
+        <item name="android:background">@drawable/back_btn_round_white</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
+
+
+    <style name="Theme.MyApplication.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MyApplication.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
