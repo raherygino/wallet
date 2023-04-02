@@ -37,7 +37,7 @@ public class DialogMenu extends SweetDialog{
             switch (id) {
                 case R.id.item_new_project:
                     dialog.dismiss();
-                    DialogEditProject editProject = new DialogEditProject(context);
+                    EditProjectDialog editProject = new EditProjectDialog(context);
                     editProject.show();
                     break;
                 case R.id.item_new_trans:

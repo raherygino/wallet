@@ -26,7 +26,7 @@ import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
-import com.gsoft.wallet.view.dialog.DialogEditProject;
+import com.gsoft.wallet.view.dialog.EditProjectDialog;
 
 public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecyclerProject.MyHolder> 
 {
@@ -124,7 +124,7 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
                             }
                         });
                     } else if (id == R.id.edit_project) {
-                        DialogEditProject editProject = new DialogEditProject(context);
+                        EditProjectDialog editProject = new EditProjectDialog(context);
                         editProject.viewModel.setData(id_project);
                         editProject.show();
                     }

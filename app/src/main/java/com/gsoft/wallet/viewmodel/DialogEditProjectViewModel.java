@@ -1,38 +1,33 @@
 package com.gsoft.wallet.viewmodel;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.EditTextMenu;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.MainActivity;
-import com.gsoft.wallet.view.dialog.DialogEditProject;
+import com.gsoft.wallet.view.dialog.EditProjectDialog;
 import com.gsoft.wallet.R;
-
-import java.util.Objects;
 
 public class DialogEditProjectViewModel {
 
     @SuppressLint("StaticFieldLeak")
-    private static DialogEditProject dialog;
+    private static EditProjectDialog dialog;
     private final DatabaseHelper db;
     private final Utils utils;
     private final MainActivity mainActivity;
     private int id_project;
 
-    public DialogEditProjectViewModel(DialogEditProject dialogEditProject) {
-        Context context = dialogEditProject.context;
+    public DialogEditProjectViewModel(EditProjectDialog editProjectDialog) {
+        Context context = editProjectDialog.context;
         utils = new Utils(context);
         db = new DatabaseHelper(context);
         mainActivity = (MainActivity) context;
-        dialog = dialogEditProject;
+        dialog = editProjectDialog;
         dialog.dialog_np_btn_ok.setOnClickListener(new onClickListner());
         dialog.edt_priority_project.setOnClickListener(new onClickListner());
     }
