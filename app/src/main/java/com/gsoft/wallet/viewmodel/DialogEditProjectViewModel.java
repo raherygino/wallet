@@ -17,7 +17,7 @@ public class DialogEditProjectViewModel {
 
     @SuppressLint("StaticFieldLeak")
     private static EditProjectDialog dialog;
-    private final DatabaseHelper db;
+    private final DatabaseHelper database;
     private final Utils utils;
     private final MainActivity mainActivity;
     private int id_project;
@@ -25,23 +25,23 @@ public class DialogEditProjectViewModel {
     public DialogEditProjectViewModel(EditProjectDialog editProjectDialog) {
         Context context = editProjectDialog.context;
         utils = new Utils(context);
-        db = new DatabaseHelper(context);
+        database = new DatabaseHelper(context);
         mainActivity = (MainActivity) context;
         dialog = editProjectDialog;
-        dialog.dialog_np_btn_ok.setOnClickListener(new onClickListner());
-        dialog.edt_priority_project.setOnClickListener(new onClickListner());
+        dialog.buttonOk.setOnClickListener(new onClickListner());
+        dialog.editPriorityProject.setOnClickListener(new onClickListner());
     }
 
     public void setData(int id ) {
         if (id != 0) {
             id_project = id;
-            Project project = db.getProjectById(id);
-            dialog.edt_title_project.setText(project.getTitle());
-            dialog.edt_type_project.setText(project.getType());
-            dialog.edt_priority_project.setText(utils.getValueByPriority(project.getPriority()));
-            dialog.edt_target_project.setText(String.valueOf(project.getTarget()));
-            dialog.edt_diposit_project.setText(String.valueOf(project.getDeposit()));
-            dialog.dialog_np_btn_ok.setText(mainActivity.getString(R.string.validate));
+            Project project = database.getProjectById(id);
+            dialog.editTitleProject.setText(project.getTitle());
+            dialog.editTypeProject.setText(project.getType());
+            dialog.editPriorityProject.setText(utils.getValueByPriority(project.getPriority()));
+            dialog.editTargetProject.setText(String.valueOf(project.getTarget()));
+            dialog.editDepositProject.setText(String.valueOf(project.getDeposit()));
+            dialog.buttonOk.setText(mainActivity.getString(R.string.validate));
         }
     }
     class onClickListner implements View.OnClickListener {
@@ -51,20 +51,22 @@ public class DialogEditProjectViewModel {
 
             int id = view.getId();
             if (id == R.id.dialog_np_btn_ok) {
-                String title = dialog.edt_title_project.getText().toString();
-                String type = dialog.edt_type_project.getText().toString();
-                int priority = utils.getPriorityByValue(dialog.edt_priority_project.getText().toString());
-                int target = Integer.parseInt(dialog.edt_target_project.getText().toString());
-                int deposit = Integer.parseInt(dialog.edt_diposit_project.getText().toString());
+                String title = dialog.editTitleProject.getText().toString();
+                String type = dialog.editTypeProject.getText().toString();
+
+                int priority = utils.getPriorityByValue(dialog.editPriorityProject.getText().toString());
+                int target = Integer.parseInt(dialog.editTargetProject.getText().toString());
+                int deposit = Integer.parseInt(dialog.editDepositProject.getText().toString());
+
                 Project project = new Project(title,type,priority,target,deposit);
 
-                if (dialog.dialog_np_btn_ok.getText() == mainActivity.getString(R.string.validate)) {
+                if (dialog.buttonOk.getText() == mainActivity.getString(R.string.validate)) {
                     project.setId(id_project);
-                    db.updateProject(project);
+                    database.updateProject(project);
                     mainActivity.viewModel.refreshProject();
                 } else {
-                    db.insertProject(project);
-                    mainActivity.viewModel.list_project.add(0, project);
+                    database.insertProject(project);
+                    mainActivity.viewModel.listProject.add(0, project);
                     mainActivity.viewModel.adapterRecycler.notifyItemInserted(0);
                     mainActivity.viewModel.refreshProject();
                 }
