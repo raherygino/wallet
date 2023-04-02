@@ -9,11 +9,9 @@ import java.io.IOException;
 
 public class FileData
 {
-    private Context context;
-    private Utils u;
+    private final Utils utils;
     public FileData(Context ctx) {
-        this.context = ctx;
-        this.u = new Utils(ctx);
+        this.utils = new Utils(ctx);
     }
     public String Open(String fileName) {
         String data = "";
@@ -38,8 +36,8 @@ public class FileData
 
         } catch (IOException e) {
             e.printStackTrace();
-            u.msg(e.getMessage());
+            utils.toast(e.getMessage());
         }
         return data;
     }
-    }
+}
