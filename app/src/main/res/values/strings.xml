@@ -21,6 +21,9 @@
 
     <string name="empty">Vide</string>
 
+    <string name="message_amount_invalid">Montant invalide</string>
+    <string name="message_title_invalid">Titre invalide</string>
+
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="enter">Entrée</string>
