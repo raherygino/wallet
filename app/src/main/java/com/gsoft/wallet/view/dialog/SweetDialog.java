@@ -1,5 +1,7 @@
 package com.gsoft.wallet.view.dialog;
 
+import static com.gsoft.wallet.utils.Utils.REGULAR;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.view.Window;
@@ -12,24 +14,23 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
 import android.widget.EditText;
-
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.utils.Utils;
 
 
 public class SweetDialog{
     public Dialog dialog;
-    private Context context;
-    private Activity activity;
-    private Utils u;
-    private int id_lay;
+    private final Context context;
+    private final Activity activity;
+    private final Utils utils;
+    private final int idLay;
     
-    public SweetDialog(Context ctx, int n_id_lay){
+    public SweetDialog(Context ctx, int idLay){
         this.context = ctx;
         this.activity = (Activity) context;
         this.dialog = new Dialog(context);
-        this.u = new Utils(context);
-        this.id_lay = n_id_lay;
+        this.utils = new Utils(context);
+        this.idLay = idLay;
         this.initDialog();
     }
     
@@ -41,7 +42,7 @@ public class SweetDialog{
         lp.width = width;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;      
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(id_lay);
+        dialog.setContentView(idLay);
         dialog.setCancelable(true);
         window.getAttributes().windowAnimations = R.style.DialogAnimation;
         window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -56,6 +57,7 @@ public class SweetDialog{
     
     public View setView(int lay, String text, String font) {
         View view = dialog.findViewById(lay);
+
         if(view instanceof TextView){
             TextView t = (TextView) view;
             t.setText(text);
@@ -67,7 +69,10 @@ public class SweetDialog{
         else if(view instanceof EditText){
             EditText edt = (EditText) view;
         }
-        if (font.length() > 1) u.setFont(view, font);
+
+        if (font.length() > 1) {
+            utils.setFont(view, font);
+        }
         return view;
     }
       
@@ -80,7 +85,7 @@ public class SweetDialog{
     }
     
     public void onCancel(int id) {
-        Button btn = (Button) setView(id, "Cancel", "Regular");
+        Button btn = (Button) setView(id, activity.getString(R.string.cancel), REGULAR);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
