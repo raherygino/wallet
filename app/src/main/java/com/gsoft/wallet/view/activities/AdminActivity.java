@@ -27,14 +27,15 @@ public class AdminActivity extends AppCompatActivity {
         TableLayout tableProject = findViewById(R.id.table_project);
         TableLayout tableTransaction = findViewById(R.id.table_transaction);
         createTableFromDatabase(database.getAllDeposit(), tableDeposit);
-        createTableFromDatabase(database.readProject(), tableProject);
-        createTableFromDatabase(database.readData(), tableTransaction);
+        createTableFromDatabase(database.getAllProject(), tableProject);
+        createTableFromDatabase(database.getAllTransaction(), tableTransaction);
     }
 
     private void createTableFromDatabase(Cursor cursor, TableLayout tableLayout) {
         int columnCount = cursor.getColumnCount();
         String[] allColumn = cursor.getColumnNames();
         createRow(tableLayout, allColumn);
+
         while (cursor.moveToNext()) {
             String[] columns = new String[columnCount];
             for (int i = 0; i < columnCount; i++) {
