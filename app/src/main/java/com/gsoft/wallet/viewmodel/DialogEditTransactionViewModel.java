@@ -38,7 +38,7 @@ public class DialogEditTransactionViewModel
     public void setData() {
         
         if (dialog.position != -1) {
-            Transaction transaction =  mainActivity.viewModel.list.get(dialog.position);
+            Transaction transaction =  mainActivity.viewModel.listTransaction.get(dialog.position);
             this.transactionId = transaction.getId();
             transaction = database.showTransaction(transactionId);
             this.dialog.editTitle.setText(transaction.getTitle());
@@ -79,13 +79,13 @@ public class DialogEditTransactionViewModel
                             if (dialog.position != -1) {
                                 Transaction blc_update = new Transaction(title, amount, type, utils.DateSQLFormatNow());
                                 database.updateData(transactionId, blc_update);
-                                mainActivity.viewModel.list.clear();
-                                mainActivity.viewModel.list.addAll(database.listTransaction());
+                                mainActivity.viewModel.listTransaction.clear();
+                                mainActivity.viewModel.listTransaction.addAll(database.listTransaction());
                                 mainActivity.viewModel.adapterRecyclerTransaction.notifyDataSetChanged();
                             }
                             else {
                                 database.insertData(blc);
-                                mainActivity.viewModel.list.add(0, blc);
+                                mainActivity.viewModel.listTransaction.add(0, blc);
                                 mainActivity.viewModel.adapterRecyclerTransaction.notifyItemInserted(0);
 
                                 if (dialog.editIsDepot.getText().toString().equals(utils.getString(R.string.ok))) {
