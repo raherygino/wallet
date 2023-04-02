@@ -31,13 +31,13 @@ import com.gsoft.wallet.view.dialog.EditProjectDialog;
 public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecyclerProject.MyHolder> 
 {
     private final Context context;
-    private ArrayList<Project> list;
-    private Utils u;
+    private ArrayList<Project> listProject;
+    private Utils utils;
 
     public AdapterRecyclerProject(Context ctx,ArrayList<Project> aList) {
         this.context = ctx;
-        this.list = aList;
-        this.u = new Utils(ctx);
+        this.listProject = aList;
+        this.utils = new Utils(ctx);
     }
 
     @Override
@@ -51,37 +51,37 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
     @Override
     public void onBindViewHolder(MyHolder myHolder, int i)
     {
-        u.setFont(myHolder.title, SEMI_BOLD);
-        u.setFont(myHolder.type, SEMI_BOLD);
-        u.setFont(myHolder.title_dep, SEMI_BOLD);
-        u.setFont(myHolder.title_targ, REGULAR);
-        u.setFont(myHolder.deposit, LIGHT);
-        u.setFont(myHolder.target, LIGHT);
-        myHolder.title.setText(list.get(i).getTitle());
-        myHolder.type.setText(list.get(i).getType());
-        myHolder.target.setText(u.numberFormat(u.intToString(list.get(i).getTarget())));
-        myHolder.deposit.setText(u.numberFormat(u.intToString(list.get(i).getDeposit())));
-        myHolder.color_priority.setBackgroundResource(list.get(i).colorPriority());
-        myHolder.btn_more.setOnClickListener(new btnMoreOnClick(list.get(i).getId()));
+        utils.setFont(myHolder.title, SEMI_BOLD);
+        utils.setFont(myHolder.type, SEMI_BOLD);
+        utils.setFont(myHolder.titleDeposit, SEMI_BOLD);
+        utils.setFont(myHolder.titleTarget, REGULAR);
+        utils.setFont(myHolder.deposit, LIGHT);
+        utils.setFont(myHolder.target, LIGHT);
+        myHolder.title.setText(listProject.get(i).getTitle());
+        myHolder.type.setText(listProject.get(i).getType());
+        myHolder.target.setText(utils.numberFormat(String.valueOf(listProject.get(i).getTarget())));
+        myHolder.deposit.setText(utils.numberFormat(String.valueOf(listProject.get(i).getDeposit())));
+        myHolder.color_priority.setBackgroundResource(listProject.get(i).colorPriority());
+        myHolder.btn_more.setOnClickListener(new btnMoreOnClick(listProject.get(i).getId()));
     }
 
     @Override
     public int getItemCount()
     {
-        return list.size();
+        return listProject.size();
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder 
     {
-        TextView title,type, title_dep, title_targ, deposit, target;
+        TextView title,type, titleDeposit, titleTarget, deposit, target;
         ImageView btn_more;
         LinearLayout color_priority;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.item_project_title);
             type = itemView.findViewById(R.id.item_project_type);
-            title_dep = itemView.findViewById(R.id.item_project_title_deposit);
-            title_targ = itemView.findViewById(R.id.item_project_title_target);
+            titleDeposit = itemView.findViewById(R.id.item_project_title_deposit);
+            titleTarget = itemView.findViewById(R.id.item_project_title_target);
             deposit = itemView.findViewById(R.id.item_project_deposit);
             target = itemView.findViewById(R.id.item_project_target);
             color_priority = itemView.findViewById(R.id.color_priority);
@@ -90,7 +90,7 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
     }
 
     class btnMoreOnClick implements View.OnClickListener {
-        private int id_project;
+        private final int id_project;
         public  btnMoreOnClick(int id) {
             id_project = id;
         }
@@ -107,13 +107,13 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
                     if (id == R.id.delete_project) {
                         ConfirmDialog dialog = new ConfirmDialog(context, "Supprimer","Voulez vous supprimer vraimenent?");
                         dialog.show();
-                        dialog.btn_1.setOnClickListener(new View.OnClickListener() {
+                        dialog.buttonCancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 dialog.dismiss();
                             }
                         });
-                        dialog.btn_2.setOnClickListener(new View.OnClickListener() {
+                        dialog.buttonOk.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 DatabaseHelper db = new DatabaseHelper(context);
