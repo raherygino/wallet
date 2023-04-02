@@ -24,23 +24,21 @@ import java.util.ArrayList;
 
 public class MainActivityViewModel
 {
-    private Context context;
-    private MainActivity mActivity;
-    private DatabaseHelper db;
-    private Utils u;
+    private final Context context;
+    private final MainActivity mActivity;
+    private DatabaseHelper database;
+    private Utils utils;
     public onClickEvent onClickListener;
-    private RecyclerView recyclerViewTransaction;
-    private RecyclerView.LayoutManager layoutManagerTransaction, layoutManager;
     public AdapterRecyclerTransaction adapterRecyclerTransaction;
     public AdapterRecyclerProject adapterRecycler;
-    public ArrayList<Transaction> list;
-    public ArrayList<Project> list_project;
+    public ArrayList<Transaction> listTransaction;
+    public ArrayList<Project> listProject;
 
     public MainActivityViewModel(MainActivity mainActivity) {
         this.context = mainActivity;
         this.mActivity = mainActivity;
-        this.u = new Utils(context);
-        this.db = new DatabaseHelper(context);
+        this.utils = new Utils(context);
+        this.database = new DatabaseHelper(context);
         this.onClickListener = new onClickEvent();
         this.refresh();
         this.setDataToView();
@@ -49,23 +47,23 @@ public class MainActivityViewModel
 
 
     private void setDataToView() {
-        list =  db.listData();
+        listTransaction =  database.listTransaction();
         
         RecyclerView recyclerView = mActivity.findViewById(R.id.recyclerview_project);
         recyclerView.setHasFixedSize(true);
         
-        list_project = db.listProject();
-        layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
+        listProject = database.listProject();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager); 
-        adapterRecycler = new AdapterRecyclerProject(mActivity, list_project);
+        adapterRecycler = new AdapterRecyclerProject(mActivity, listProject);
         recyclerView.setAdapter(adapterRecycler);
 
-        recyclerViewTransaction = mActivity.findViewById(R.id.recyclerview_transaction_home);
+        RecyclerView recyclerViewTransaction = mActivity.findViewById(R.id.recyclerview_transaction_home);
         recyclerViewTransaction.setHasFixedSize(true);
-        layoutManagerTransaction = new LinearLayoutManager(mActivity);
+        RecyclerView.LayoutManager layoutManagerTransaction = new LinearLayoutManager(mActivity);
 
         recyclerViewTransaction.setLayoutManager(layoutManagerTransaction); 
-        adapterRecyclerTransaction = new AdapterRecyclerTransaction(mActivity, list, recyclerViewTransaction);
+        adapterRecyclerTransaction = new AdapterRecyclerTransaction(mActivity, listTransaction, recyclerViewTransaction);
         recyclerViewTransaction.setAdapter(adapterRecyclerTransaction); 
     } 
     
@@ -75,20 +73,20 @@ public class MainActivityViewModel
     }
     
     public void refresh() {
-        int total = db.total("Entrée") - db.total("Sortie");
-        mActivity.home_income.setText(u.numberFormat( String.valueOf(db.total("Entrée"))));
-        mActivity.home_outcome.setText(u.numberFormat(String.valueOf(db.total("Sortie"))));
-        mActivity.home_balance.setText(u.numberFormat(String.valueOf(total)));
+        int total = database.total(utils.getString(R.string.in)) - database.total(utils.getString(R.string.out));
+        mActivity.home_income.setText(utils.numberFormat(String.valueOf(database.total(utils.getString(R.string.in)))));
+        mActivity.home_outcome.setText(utils.numberFormat(String.valueOf(database.total(utils.getString(R.string.out)))));
+        mActivity.home_balance.setText(utils.numberFormat(String.valueOf(total)));
     }
 
     public void refreshProject() {
-        list_project.clear();
-        list_project.addAll(db.listProject());
+        listProject.clear();
+        listProject.addAll(database.listProject());
         adapterRecycler.notifyDataSetChanged();
     }
     
     public void delete(int id) {
-        db.deleteData(id);
+        database.deleteTransaction(id);
     }
     
     class onClickEvent implements OnClickListener
@@ -99,7 +97,7 @@ public class MainActivityViewModel
         @Override
         public void onClick(View p1)
         {
-            u.btnClick(p1);
+            utils.btnClick(p1);
             int id = p1.getId();
             
             switch(id) {
@@ -132,15 +130,13 @@ public class MainActivityViewModel
                     mActivity.showFileChooser();
                     break;
                 case R.id.export_data:
-                    db.saveFile();
+                    database.saveFile();
                     break;
                 case R.id.admin:
                     mActivity.startActivity(new Intent(mActivity, AdminActivity.class));
                     break;
             }
-
             return true;
         }
-
-   }
+    }
 }
