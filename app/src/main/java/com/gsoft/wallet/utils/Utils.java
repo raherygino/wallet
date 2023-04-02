@@ -1,5 +1,6 @@
 package com.gsoft.wallet.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.TextView;
 import android.graphics.Typeface;
@@ -29,10 +30,8 @@ import com.gsoft.wallet.view.dialog.ConfirmDialog;
 
 public class Utils{
     
-    private Context context;
-    private String fonts = "Poppins_";
-    private ConfirmDialog dialog;
-    private Activity activity;
+    private final Context context;
+    private final Activity activity;
     public static String SEMI_BOLD = "SemiBold";
     public static String REGULAR = "Regular";
     public static String LIGHT = "Light";
@@ -43,15 +42,14 @@ public class Utils{
     }
     
     public void setFont(View view,String font) {
-        String fnts = fonts+font+".ttf";
-        Typeface tface = Typeface.createFromAsset(context.getAssets(),fnts); 
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(),"Poppins_"+font+".ttf");
         if (view instanceof Button) {
             Button btn = (Button) view;
-            btn.setTypeface(tface);
+            btn.setTypeface(typeface);
         }
         else if (view instanceof TextView) {
             TextView textView = (TextView) view;
-            textView.setTypeface(tface);
+            textView.setTypeface(typeface);
         }
     }
 
@@ -88,8 +86,8 @@ public class Utils{
       v.startAnimation(anim);
     }
     
-    public void msg(String mssg){
-        Toast.makeText(context, mssg, Toast.LENGTH_SHORT).show();
+    public void toast(String message){
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
     
     public String formatDate(String od) {
@@ -113,22 +111,23 @@ public class Utils{
         return d+" "+months[Integer.parseInt(m)-1]+" "+y;
     }
     
+    @SuppressLint("UseCompatLoadingForDrawables")
     public Drawable getDrawable(String uri) {
-        int imageResource = context.getResources().getIdentifier("@drawable/"+uri, null, context.getPackageName());
-        Drawable res = context.getResources().getDrawable(imageResource);
-        return res;
+        @SuppressLint("DiscouragedApi") int imageResource = context.getResources().getIdentifier("@drawable/"+uri, null, context.getPackageName());
+        return context.getResources().getDrawable(imageResource);
     }
     
-    public String numberFormat(String num) {
-        String res = "";
-        int len = num.length();
+    public String numberFormat(String number) {
+        StringBuilder res = new StringBuilder();
+        int len = number.length();
+
         for (int i = 0; i < len; i++) {
             if(i == len-4 || i == len-7 || i == len-10) {
-                res+= num.charAt(i)+" ";
+                res.append(number.charAt(i)).append(" ");
             }
-            else { res += num.charAt(i); }
+            else { res.append(number.charAt(i)); }
         }
-        return res;
+        return res.toString();
     }
     
     public String DateSQLFormatNow() {
@@ -156,15 +155,14 @@ public class Utils{
     }
 
     public ArrayList<Transaction> balanceSortedByDate(DatabaseHelper db) {
-        ArrayList<Transaction> list_transaction = new ArrayList<>();
-        ArrayList<Transaction> list_transaction_db = db.listData();
+        ArrayList<Transaction> list_transaction_db = db.listTransaction();
         Date[] dates = {};
         for (int i = 0; i < list_transaction_db.size() ; i++) {
             dates[i] = stringToDate(list_transaction_db.get(i).getDate());
         }
         Arrays.sort(dates);
         for (Date date : dates) {
-            msg(date.toString());
+            toast(date.toString());
         }
         return list_transaction_db;
     }
@@ -180,10 +178,6 @@ public class Utils{
             TextView txt = (TextView) v;
             txt.setTextColor(ContextCompat.getColor(context, color));
         }
-    }
-
-    public String intToString(int integer) {
-        return  ""+integer;
     }
     
 }
