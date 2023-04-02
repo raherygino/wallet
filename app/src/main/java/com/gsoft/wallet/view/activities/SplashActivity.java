@@ -1,11 +1,9 @@
 package com.gsoft.wallet.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.utils.Utils;
 

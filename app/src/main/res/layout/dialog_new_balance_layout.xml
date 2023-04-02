@@ -142,16 +142,16 @@
         tools:ignore="RtlHardcoded">
 
         <Button
-            android:id="@+id/dialog_nb_btn_cancel"
+            android:id="@+id/profil_button_cancel"
             android:background="@color/transparent"
             android:layout_width="wrap_content"
             android:layout_height="34dp"
             android:padding="0dp"
             android:textColor="@color/blue_500"
             android:textAllCaps="false"
-            android:text="Annuler"/>
+            android:text="@string/cancel"/>
         <Button
-            android:id="@+id/dialog_nb_btn_ok"
+            android:id="@+id/profil_button_ok"
             android:layout_width="wrap_content"
             android:layout_height="34dp"
             style="@style/ButtonPrimary"

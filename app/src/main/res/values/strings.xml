@@ -17,6 +17,9 @@
 
     <!-- Title -->
     <string name="current_balance">Balance</string>
+    <string name="email">Email</string>
+    <string name="first_name">Nom</string>
+    <string name="last_name">Prénom</string>
     <string name="project">Projet</string>
     <string name="total_income">Total income</string>
     <string name="transaction">Transaction</string>

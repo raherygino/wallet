@@ -4,6 +4,7 @@ import static com.gsoft.wallet.utils.Utils.REGULAR;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.Window;
 import android.graphics.drawable.ColorDrawable;
 import android.app.Activity;
