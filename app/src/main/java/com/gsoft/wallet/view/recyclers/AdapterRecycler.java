@@ -1,5 +1,9 @@
 package com.gsoft.wallet.view.recyclers;
 
+import static com.gsoft.wallet.utils.Utils.LIGHT;
+import static com.gsoft.wallet.utils.Utils.SEMI_BOLD;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,52 +13,50 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.widget.ImageView;
 import androidx.core.content.ContextCompat;
-
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
 import com.gsoft.wallet.view.dialog.EditTransactionDialog;
-
 import java.util.ArrayList;
 
 public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHolder> {
     
-    Context context;
-    Utils utils;
-    ArrayList<Transaction> transaction;
-    ConfirmDialog confirm_dial;
-    RecyclerView rView;
+    private final Context context;
+    private final Utils utils;
+    private final ArrayList<Transaction> transaction;
+    private ConfirmDialog confirm_dial;
+    private final RecyclerView recyclerView;
     
     public AdapterRecycler(Context context, ArrayList<Transaction> nTransaction, RecyclerView recyclerView) {
         this.context = context;
         this.transaction = nTransaction;
         this.utils = new Utils(context);
-        this.rView = recyclerView;
+        this.recyclerView = recyclerView;
     }
     
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_transaction, viewGroup, false);
-        MyHolder myHolder = new MyHolder(view);
-        return myHolder;
+        return new MyHolder(view);
     }
     
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {   
     
-        utils.setFont(myHolder.title, "SemiBold");
-        utils.setFont(myHolder.amount, "Light");
-        utils.setFont(myHolder.unity, "Light");
-        utils.setFont(myHolder.date, "Light");
+        utils.setFont(myHolder.title, SEMI_BOLD);
+        utils.setFont(myHolder.amount, LIGHT);
+        utils.setFont(myHolder.unity, LIGHT);
+        utils.setFont(myHolder.date, LIGHT);
         
         Transaction item = transaction.get(i);
         myHolder.title.setText(item.getTitle());
         myHolder.date.setText(utils.formatDate(item.getFormatedDate())+" "+item.getTime());
         
-        if (transaction.get(i).getType().indexOf("Sortie") != -1) {
+        if (transaction.get(i).getType().contains(utils.getString(R.string.out))) {
             myHolder.image.setImageDrawable(utils.getDrawable("ic_orbit_money_transfer_out"));
             setColorItem(myHolder, R.color.red_400);
             myHolder.amount.setText("-"+item.getFormatedAmount(utils));
@@ -64,7 +66,6 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
             myHolder.amount.setText("+"+item.getFormatedAmount(utils));
         }
         myHolder.itemView.setOnClickListener(new onClick(i));
-        
     }
     
     private void setColorItem(MyHolder mHolder, int color) 
@@ -77,12 +78,12 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
     public void remove(int i) 
     {
         transaction.remove(i);
-        rView.removeAllViews();
+        recyclerView.removeAllViews();
     }
     
     public class onClick implements View.OnClickListener
     {
-        private int position;
+        private final int position;
         
         public onClick(int pos) {
             this.position = pos;
@@ -91,14 +92,14 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
         @Override
         public void onClick(View view)
         {
-            String del = "Supprimer";
-            String edit = "Modifier";
+            String del = utils.getString(R.string.delete);
+            String edit = utils.getString(R.string.edit);
             String title = transaction.get(position).getTitle();
             String amount = transaction.get(position).getFormatedAmount(utils);
             utils.btnClick(view);
             
             confirm_dial = new ConfirmDialog(context, title, amount);
-            confirm_dial.btn_1.setOnClickListener(new View.OnClickListener() {
+            confirm_dial.buttonOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View p) {
                     confirm_dial.dismiss();
@@ -109,7 +110,7 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
                 }
             });
             
-            confirm_dial.btn_2.setOnClickListener(new View.OnClickListener() {
+            confirm_dial.buttonCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View p) {
                    if (context instanceof MainActivity) {
@@ -122,8 +123,8 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
                    remove(position);
                 }
             });
-            confirm_dial.btn_2.setText(del);
-            confirm_dial.btn_1.setText(edit);
+            confirm_dial.buttonOk.setText(del);
+            confirm_dial.buttonCancel.setText(edit);
             confirm_dial.show();
             
         }
@@ -137,7 +138,7 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
     public static class MyHolder extends RecyclerView.ViewHolder 
     {
        TextView title, amount, date, unity;
-       ImageView image, edit, del;
+       ImageView image;
        
        public MyHolder(@NonNull View itemView) {
             super(itemView);

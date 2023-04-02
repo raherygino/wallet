@@ -10,6 +10,9 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
 
+    <string name="out">Sortie</string>
+    <string name="in">Entrée</string>
+
     <string name="cancel">Annuler</string>
     <string name="ok">Ok</string>
 
