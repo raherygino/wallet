@@ -307,7 +307,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /*** DEPOSIT ***/
-
     private ContentValues valuesDeposit(Deposit deposit) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID_PROJECT, deposit.getIdProject());
@@ -347,8 +346,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return idTransaction;
     }
 
+    public Project projectByTransaction(int id) {
+        Project project = null;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_DEPOSIT+" WHERE "+COLUMN_ID_TRANSACTION+" = '"+id+"'";
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            project = getProjectById(cursor.getInt(1));
+        }
+        return project;
+    }
+
+    public Boolean idTransactionIsDeposit(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_DEPOSIT+" WHERE "+COLUMN_ID_TRANSACTION+" = '"+id+"'";
+        Cursor cursor = db.rawQuery(query,null);
+        return cursor.getCount() != 0;
+    }
+
     private Deposit getDepositFromCursor(Cursor cursor) {
         return new Deposit(cursor.getInt(0), cursor.getInt(0), cursor.getInt(0));
+    }
+
+    public void deleteDepositByIdProjectTrans(int idProject, int idTrans) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(
+                TABLE_DEPOSIT,
+                COLUMN_ID_PROJECT+" = ? AND "+COLUMN_ID_TRANSACTION+" = ? ",
+                new String[]{String.valueOf(idProject), String.valueOf(idTrans)}
+        );
     }
 }
 

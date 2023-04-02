@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/yes"
-        android:title="Oui">Oui</item>
+        android:title="@string/yes"/>
     <item
         android:id="@+id/no"
-        android:title="Non">Non</item>
+        android:title="@string/no"/>
 </menu>

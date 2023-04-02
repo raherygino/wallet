@@ -36,7 +36,7 @@ public class EditTextMenu {
 
                     case R.id.outcome:
                         isDepot.setEnabled(true);
-                        isDepot.setText(activity.getString(R.string.yes));
+                        isDepot.setText(activity.getString(R.string.no));
                         break;
 
                     case R.id.income:

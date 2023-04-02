@@ -32,6 +32,7 @@ public class EditTransactionDialog extends SweetDialog
     public int idProject;
     public RelativeLayout layoutProject;
     private Utils utils;
+    public int[] projectIds = null;
 
     public EditTransactionDialog(Context ctx) {
         super(ctx, R.layout.dialog_new_balance_layout);
@@ -62,7 +63,7 @@ public class EditTransactionDialog extends SweetDialog
     private void setConfigSpinner() {
         ArrayList<Project> listProject = database.listProject();
         String[] allProject = new String[listProject.size()];
-        int[] projectIds = new int[listProject.size()];
+        projectIds = new int[listProject.size()];
         idProject = projectIds[0];
         for (int i = 0; i < listProject.size(); i++) {
             allProject[i] = listProject.get(i).getTitle();

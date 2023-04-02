@@ -45,7 +45,6 @@ public class MainActivityViewModel
         this.refresh();
     }
 
-
     private void setDataToView() {
         listTransaction =  database.listTransaction();
         
