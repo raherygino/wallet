@@ -26,7 +26,6 @@ import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
-import com.gsoft.wallet.view.dialog.DialogEditBalance;
 import com.gsoft.wallet.view.dialog.DialogEditProject;
 
 public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecyclerProject.MyHolder> 

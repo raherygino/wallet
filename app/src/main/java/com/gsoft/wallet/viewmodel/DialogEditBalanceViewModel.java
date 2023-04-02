@@ -12,18 +12,18 @@ import com.gsoft.wallet.model.models.Deposit;
 import com.gsoft.wallet.utils.EditTextMenu;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.MainActivity;
-import com.gsoft.wallet.view.dialog.DialogEditBalance;
+import com.gsoft.wallet.view.dialog.EditTransactionDialog;
 
 public class DialogEditBalanceViewModel
 {
     private final Context context;
     private final Utils utils;
-    private final DialogEditBalance dialog;
+    private final EditTransactionDialog dialog;
     private final DatabaseHelper database;
     private final MainActivity mainActivity;
     private int balance_id = 0;
     
-    public DialogEditBalanceViewModel(DialogEditBalance dialog) {
+    public DialogEditBalanceViewModel(EditTransactionDialog dialog) {
         this.context = dialog.context;
         this.dialog = dialog;
         this.utils = new Utils(context);

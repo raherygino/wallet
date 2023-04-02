@@ -42,7 +42,7 @@ public class DialogMenu extends SweetDialog{
                     break;
                 case R.id.item_new_trans:
                     dialog.dismiss();
-                    DialogEditBalance n_balance = new DialogEditBalance(context);
+                    EditTransactionDialog n_balance = new EditTransactionDialog(context);
                     n_balance.setPosition(-1);
                     n_balance.show();
                     break;

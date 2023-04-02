@@ -15,7 +15,7 @@ import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
-import com.gsoft.wallet.view.dialog.DialogEditBalance;
+import com.gsoft.wallet.view.dialog.EditTransactionDialog;
 
 import java.util.ArrayList;
 
@@ -102,7 +102,7 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
                 @Override
                 public void onClick(View p) {
                     confirm_dial.dismiss();
-                    DialogEditBalance dlg_edt = new DialogEditBalance(context);
+                    EditTransactionDialog dlg_edt = new EditTransactionDialog(context);
                     dlg_edt.setPosition(position);
                     dlg_edt.viewModel.setData();
                     dlg_edt.show();
