@@ -1,4 +1,6 @@
 package com.gsoft.wallet.view.navbar;
+import static com.gsoft.wallet.utils.Utils.LIGHT;
+
 import android.widget.TableRow;
 import android.widget.TableLayout;
 import android.content.Context;
@@ -14,15 +16,13 @@ public class BottomNav
 {
     public int CHILD_COUNT = 0;
     public TextView[] ITEMS;
-    private Utils u;
     public MainActivity mActivity;
-    private NavBarViewModel viewModel;
-    
-    public BottomNav(Context ctx) {
+
+    public BottomNav(Context context) {
         
-        this.mActivity = (MainActivity) ctx;
-        this.u = new Utils(ctx);
-        this.viewModel = new NavBarViewModel(this);
+        this.mActivity = (MainActivity) context;
+        Utils utils = new Utils(context);
+        NavBarViewModel viewModel = new NavBarViewModel(this);
         
         TableLayout navTableLayout = mActivity.findViewById(R.id.nav_table_layout);
         TableRow tableRow = (TableRow) navTableLayout.getChildAt(0);
@@ -36,14 +36,14 @@ public class BottomNav
                 linearLay.setId(i+1);
                 linearLay.setOnClickListener(viewModel.onClick);
                 ITEMS[i] = (TextView) linearLay.getChildAt(1);
-                u.setFont(ITEMS[i], "Light");
+                utils.setFont(ITEMS[i], LIGHT);
                 if( i == 0) {
                     viewModel.onClick.setItem(linearLay, R.color.blue_600, "ic_home");
                 }
             }
             else {
                 TextView txt = new TextView(mActivity);
-                txt.setText("Vide");
+                txt.setText(mActivity.getString(R.string.empty));
                 ITEMS[i] = txt;
             }
         }
