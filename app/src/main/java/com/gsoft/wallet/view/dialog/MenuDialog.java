@@ -1,22 +1,24 @@
 package com.gsoft.wallet.view.dialog;
 
+import static com.gsoft.wallet.utils.Utils.LIGHT;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
-
 import com.gsoft.wallet.R;
 
-public class DialogMenu extends SweetDialog{
-
+public class MenuDialog extends SweetDialog{
     private Context context;
-    public DialogMenu(Context ctx) {
-        super(ctx, R.layout.dialog_menu_new);
-        context = ctx;
-        Button item_new_project = (Button) super.setView(R.id.item_new_project,"Project", "Light");
-        Button item_new_trans = (Button) super.setView(R.id.item_new_trans,"Transaction", "Light");
-        item_new_project.setOnClickListener(new OnClick());
-        item_new_trans.setOnClickListener(new OnClick());
+    public MenuDialog(Context context) {
+        super(context, R.layout.dialog_menu_new);
+        this.context = context;
+        Activity activity = (Activity) context;
+        Button itemNewProject = (Button) super.setView(R.id.item_new_project,activity.getString(R.string.project), LIGHT);
+        Button itemNewTransasction = (Button) super.setView(R.id.item_new_trans,activity.getString(R.string.transaction), LIGHT);
+        itemNewProject.setOnClickListener(new OnClick());
+        itemNewTransasction.setOnClickListener(new OnClick());
     }
 
     @Override
@@ -34,17 +36,17 @@ public class DialogMenu extends SweetDialog{
         @Override
         public void onClick(View view) {
             int id = view.getId();
+            dialog.dismiss();
             switch (id) {
                 case R.id.item_new_project:
-                    dialog.dismiss();
                     EditProjectDialog editProject = new EditProjectDialog(context);
                     editProject.show();
                     break;
+
                 case R.id.item_new_trans:
-                    dialog.dismiss();
-                    EditTransactionDialog n_balance = new EditTransactionDialog(context);
-                    n_balance.setPosition(-1);
-                    n_balance.show();
+                    EditTransactionDialog newBalance = new EditTransactionDialog(context);
+                    newBalance.setPosition(-1);
+                    newBalance.show();
                     break;
             }
         }

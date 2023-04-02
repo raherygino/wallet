@@ -16,7 +16,7 @@ import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.AdminActivity;
 import com.gsoft.wallet.view.activities.MainActivity;
-import com.gsoft.wallet.view.dialog.DialogMenu;
+import com.gsoft.wallet.view.dialog.MenuDialog;
 import com.gsoft.wallet.view.recyclers.AdapterRecycler;
 import com.gsoft.wallet.view.recyclers.AdapterRecyclerProject;
 
@@ -105,7 +105,7 @@ public class MainActivityViewModel
             switch(id) {
                 
                 case R.id.fab_add:
-                    DialogMenu menu = new DialogMenu(context);
+                    MenuDialog menu = new MenuDialog(context);
                     menu.show();
                     break;
                     
