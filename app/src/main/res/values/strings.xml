@@ -16,6 +16,7 @@
     <string name="message_title_invalid">Titre invalide</string>
 
     <!-- Title -->
+    <string name="current_balance">Balance</string>
     <string name="project">Projet</string>
     <string name="total_income">Total income</string>
     <string name="transaction">Transaction</string>
