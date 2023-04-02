@@ -28,13 +28,12 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
 {
-
     public TextView home_title, home_username, home_title_balance, home_balance,  home_title_activity, home_title_project, home_income, home_outcome;
     public ImageView home_btn_settings;
     public Button home_btn_all_activities, home_btn_all_pro;
     public FloatingActionButton btn_fab_add;
     private Utils utils;
-    private DatabaseHelper db;
+    private DatabaseHelper database;
     public BottomNav bottomNav;
     public MainActivityViewModel viewModel;
     private static final int READ_REQUEST_CODE = 42;
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity
 
     private void init() {
         utils = new Utils(MainActivity.this);
-        db = new DatabaseHelper(MainActivity.this);
+        database = new DatabaseHelper(MainActivity.this);
     }
 
     private void initView() {
@@ -72,7 +71,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void configView() {
-
         utils.setFont(home_income, "SemiBold");
         utils.setFont(home_outcome, "SemiBold");
         utils.setFont(home_balance, "SemiBold");
@@ -86,7 +84,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void showFileChooser() {
-
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
@@ -101,7 +98,6 @@ public class MainActivity extends AppCompatActivity
             Uri uri = null;
             if (data != null) {
                 uri = data.getData();
-                Log.i("FileChooser", "Uri: " + uri.toString());
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(uri);
                     BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -112,15 +108,11 @@ public class MainActivity extends AppCompatActivity
                         stringBuilder.append(line);
                     }
                     inputStream.close();
-                    db.openFile(stringBuilder.toString());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    database.openFile(stringBuilder.toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
-    
-
 }
