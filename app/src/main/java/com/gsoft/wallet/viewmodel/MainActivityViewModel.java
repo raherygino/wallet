@@ -17,7 +17,7 @@ import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.AdminActivity;
 import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.MenuDialog;
-import com.gsoft.wallet.view.recyclers.AdapterRecycler;
+import com.gsoft.wallet.view.recyclers.AdapterRecyclerTransaction;
 import com.gsoft.wallet.view.recyclers.AdapterRecyclerProject;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class MainActivityViewModel
     public onClickEvent onClickListener;
     private RecyclerView recyclerViewTransaction;
     private RecyclerView.LayoutManager layoutManagerTransaction, layoutManager;
-    public AdapterRecycler adapterRecyclerTransaction;
+    public AdapterRecyclerTransaction adapterRecyclerTransaction;
     public AdapterRecyclerProject adapterRecycler;
     public ArrayList<Transaction> list;
     public ArrayList<Project> list_project;
@@ -65,7 +65,7 @@ public class MainActivityViewModel
         layoutManagerTransaction = new LinearLayoutManager(mActivity);
 
         recyclerViewTransaction.setLayoutManager(layoutManagerTransaction); 
-        adapterRecyclerTransaction = new AdapterRecycler(mActivity, list, recyclerViewTransaction);
+        adapterRecyclerTransaction = new AdapterRecyclerTransaction(mActivity, list, recyclerViewTransaction);
         recyclerViewTransaction.setAdapter(adapterRecyclerTransaction); 
     } 
     

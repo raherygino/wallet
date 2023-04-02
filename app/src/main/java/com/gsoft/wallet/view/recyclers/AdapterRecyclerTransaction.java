@@ -21,7 +21,7 @@ import com.gsoft.wallet.view.dialog.ConfirmDialog;
 import com.gsoft.wallet.view.dialog.EditTransactionDialog;
 import java.util.ArrayList;
 
-public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHolder> {
+public class AdapterRecyclerTransaction extends RecyclerView.Adapter<AdapterRecyclerTransaction.MyHolder> {
     
     private final Context context;
     private final Utils utils;
@@ -29,7 +29,7 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
     private ConfirmDialog confirm_dial;
     private final RecyclerView recyclerView;
     
-    public AdapterRecycler(Context context, ArrayList<Transaction> nTransaction, RecyclerView recyclerView) {
+    public AdapterRecyclerTransaction(Context context, ArrayList<Transaction> nTransaction, RecyclerView recyclerView) {
         this.context = context;
         this.transaction = nTransaction;
         this.utils = new Utils(context);
