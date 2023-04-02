@@ -1,24 +1,21 @@
 package com.gsoft.wallet.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
-
-import androidx.appcompat.widget.AppCompatSpinner;
-
 import com.gsoft.wallet.R;
 
-
 public class EditTextMenu {
-    private Spinner projet;
     private EditText isDepot;
     private RelativeLayout layoutProject;
     public EditTextMenu(Context context, EditText edt, int menu) {
+        Activity activity = (Activity) context;
+
         PopupMenu popupMenu = new PopupMenu(context, edt);
         popupMenu.getMenuInflater().inflate(menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -26,28 +23,36 @@ public class EditTextMenu {
             @Override
             public boolean onMenuItemClick(MenuItem item)
             {
-                edt.setText(item.getTitle().toString());
                 int id = item.getItemId();
-                if (id == R.id.yes) {
-                    layoutProject.setVisibility(View.VISIBLE);
-                } else if (id == R.id.no){
-                    layoutProject.setVisibility(View.GONE);
-                } else if (id == R.id.outcome) {
-                    isDepot.setEnabled(true);
-                    isDepot.setText("Non");
-                } else if (id == R.id.income) {
-                    isDepot.setEnabled(false);
-                    layoutProject.setVisibility(View.GONE);
-                    isDepot.setText("Non");
+
+                switch (id) {
+                    case R.id.yes:
+                        layoutProject.setVisibility(View.VISIBLE);
+                        break;
+
+                    case R.id.no:
+                        layoutProject.setVisibility(View.GONE);
+                        break;
+
+                    case R.id.outcome:
+                        isDepot.setEnabled(true);
+                        isDepot.setText(activity.getString(R.string.yes));
+                        break;
+
+                    case R.id.income:
+                        isDepot.setEnabled(false);
+                        layoutProject.setVisibility(View.GONE);
+                        isDepot.setText(activity.getString(R.string.no));
+                        break;
                 }
+                edt.setText(item.getTitle().toString());
                 return true;
             }
         });
         popupMenu.show();
     }
 
-    public void setProjet(Spinner projet, RelativeLayout layoutProject) {
-        this.projet = projet;
+    public void setProjetLayout(RelativeLayout layoutProject) {
         this.layoutProject = layoutProject;
     }
     public void setEditTextDepot(EditText isDepot) {
