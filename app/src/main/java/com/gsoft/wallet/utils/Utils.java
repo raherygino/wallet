@@ -179,5 +179,9 @@ public class Utils{
             txt.setTextColor(ContextCompat.getColor(context, color));
         }
     }
+
+    private String getString(int resId) {
+        return activity.getString(resId);
+    }
     
 }
