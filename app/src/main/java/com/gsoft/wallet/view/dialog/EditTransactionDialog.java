@@ -63,7 +63,7 @@ public class EditTransactionDialog extends SweetDialog
         ArrayList<Project> listProject = database.listProject();
         String[] allProject = new String[listProject.size()];
         int[] projectIds = new int[listProject.size()];
-
+        idProject = projectIds[0];
         for (int i = 0; i < listProject.size(); i++) {
             allProject[i] = listProject.get(i).getTitle();
             projectIds[i] = listProject.get(i).getId();

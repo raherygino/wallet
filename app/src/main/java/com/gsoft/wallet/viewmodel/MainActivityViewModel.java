@@ -40,9 +40,9 @@ public class MainActivityViewModel
         this.utils = new Utils(context);
         this.database = new DatabaseHelper(context);
         this.onClickListener = new onClickEvent();
-        this.refresh();
         this.setDataToView();
         this.setViewEvent();
+        this.refresh();
     }
 
 
@@ -77,6 +77,9 @@ public class MainActivityViewModel
         mActivity.home_income.setText(utils.numberFormat(String.valueOf(database.total(utils.getString(R.string.in)))));
         mActivity.home_outcome.setText(utils.numberFormat(String.valueOf(database.total(utils.getString(R.string.out)))));
         mActivity.home_balance.setText(utils.numberFormat(String.valueOf(total)));
+        listTransaction.clear();
+        listTransaction.addAll(database.listTransaction());
+        adapterRecyclerTransaction.notifyDataSetChanged();
     }
 
     public void refreshProject() {

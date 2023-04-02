@@ -88,7 +88,7 @@ public class DialogEditTransactionViewModel
                                 mainActivity.viewModel.listTransaction.add(0, blc);
                                 mainActivity.viewModel.adapterRecyclerTransaction.notifyItemInserted(0);
 
-                                if (dialog.editIsDepot.getText().toString().equals(utils.getString(R.string.ok))) {
+                                if (dialog.editIsDepot.getText().toString().equals(utils.getString(R.string.yes))) {
                                     database.insertDeposit(new Deposit(0, dialog.idProject, database.getMaxIdTransaction()));
                                 }
                             }

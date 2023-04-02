@@ -123,8 +123,8 @@ public class AdapterRecyclerTransaction extends RecyclerView.Adapter<AdapterRecy
                    remove(position);
                 }
             });
-            confirm_dial.buttonOk.setText(del);
-            confirm_dial.buttonCancel.setText(edit);
+            confirm_dial.buttonCancel.setText(del);
+            confirm_dial.buttonOk.setText(edit);
             confirm_dial.show();
             
         }
