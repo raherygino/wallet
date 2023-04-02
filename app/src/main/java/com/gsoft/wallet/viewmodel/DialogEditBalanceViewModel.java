@@ -1,8 +1,11 @@
 package com.gsoft.wallet.viewmodel;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.PopupMenu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -10,6 +13,7 @@ import android.widget.EditText;
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Balance;
+import com.gsoft.wallet.model.models.Deposit;
 import com.gsoft.wallet.utils.EditTextMenu;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.MainActivity;
@@ -17,34 +21,34 @@ import com.gsoft.wallet.view.dialog.DialogEditBalance;
 
 public class DialogEditBalanceViewModel
 {
-    private Context context;
-    private Utils u;
-    private DialogEditBalance dlg;
-    private DatabaseHelper db;
-    private MainActivity mActivity;
+    private final Context context;
+    private final Utils utils;
+    private final DialogEditBalance dialog;
+    private final DatabaseHelper database;
+    private final MainActivity mainActivity;
     private int balance_id = 0;
     
     public DialogEditBalanceViewModel(DialogEditBalance dialog) {
         this.context = dialog.context;
-        this.dlg = dialog;
-        this.u = new Utils(context);
-        this.db = new DatabaseHelper(context);
-        this.mActivity = (MainActivity) context;
+        this.dialog = dialog;
+        this.utils = new Utils(context);
+        this.database = new DatabaseHelper(context);
+        this.mainActivity = (MainActivity) context;
         dialog.edt_type.setText("Entrée");
         dialog.edt_type.setOnClickListener(new Onclick());
+        dialog.edt_is_depot.setOnClickListener(new Onclick());
         dialog.BTN_OK.setOnClickListener(new Onclick());
-        
     }
     
     public void setData() {
         
-        if (dlg.position != -1) {
-            Balance blc =  mActivity.viewModel.list.get(dlg.position);
+        if (dialog.position != -1) {
+            Balance blc =  mainActivity.viewModel.list.get(dialog.position);
             this.balance_id = blc.getId();
-            blc = db.show(balance_id);
-            this.dlg.edt_title.setText(blc.getTitle());
-            this.dlg.edt_amount.setText(blc.getAmout());
-            this.dlg.edt_type.setText(blc.getType());
+            blc = database.show(balance_id);
+            this.dialog.edt_title.setText(blc.getTitle());
+            this.dialog.edt_amount.setText(blc.getAmout());
+            this.dialog.edt_type.setText(blc.getType());
         }
     }
     
@@ -55,42 +59,59 @@ public class DialogEditBalanceViewModel
         @Override
         public void onClick(View v)
         {
-            u.btnClick(v);
+            utils.btnClick(v);
             int id = v.getId();
+            EditText editText = null;
+            if (v instanceof EditText) {
+                editText = (EditText) v;
+            }
             
             switch(id) {
                 case R.id.dialog_nb_btn_ok:
-                    String amount = dlg.edt_amount.getText().toString();
-                    String type = dlg.edt_type.getText().toString();
-                    String title = dlg.edt_title.getText().toString();
-                    Balance blc = new Balance(title, amount, type, u.DateSQLFormatNow());
-                    if (amount.isEmpty()) { u.msg("Montant invalide"); }
+                    String amount = dialog.edt_amount.getText().toString();
+                    String type = dialog.edt_type.getText().toString();
+                    String title = dialog.edt_title.getText().toString();
+                    Balance blc = new Balance(title, amount, type, utils.DateSQLFormatNow());
+                    if (amount.isEmpty()) { utils.msg("Montant invalide"); }
                     else {
-                        if (title.isEmpty()) { u.msg("Titre invalide"); }
+                        if (title.isEmpty()) { utils.msg("Titre invalide"); }
                         else {
 
-                            if (dlg.position != -1) {
-                                Balance blc_update = new Balance(title, amount, type, u.DateSQLFormatNow());
-                                db.updateData(balance_id, blc_update);
-                                mActivity.viewModel.list.clear();
-                                mActivity.viewModel.list.addAll(db.listData());
-                                mActivity.viewModel.adapterRecyclerTransaction.notifyDataSetChanged();
+                            if (dialog.position != -1) {
+                                Balance blc_update = new Balance(title, amount, type, utils.DateSQLFormatNow());
+                                database.updateData(balance_id, blc_update);
+                                mainActivity.viewModel.list.clear();
+                                mainActivity.viewModel.list.addAll(database.listData());
+                                mainActivity.viewModel.adapterRecyclerTransaction.notifyDataSetChanged();
                             }
                             else {
-                                db.insertData(blc);
-                                mActivity.viewModel.list.add(0, blc);
-                                mActivity.viewModel.adapterRecyclerTransaction.notifyItemInserted(0);
+                                database.insertData(blc);
+                                mainActivity.viewModel.list.add(0, blc);
+                                mainActivity.viewModel.adapterRecyclerTransaction.notifyItemInserted(0);
+                                if (dialog.edt_is_depot.getText().toString().equals("Oui")) {
+                                    database.insertDeposit(new Deposit(0, dialog.idProject, database.maxId()));
+                                    utils.msg("ok"+ database.maxId());
+                                }
+                                utils.msg(""+database.listDeposit().size());
                             }
-                            mActivity.viewModel.refresh();
-                            dlg.dismiss();
+                            mainActivity.viewModel.refresh();
+                            dialog.dismiss();
                         }
                     }
                     
                    break;
                    
+                case R.id.edt_is_depot:
                 case R.id.edt_type:
-                    final EditText edt = (EditText) v;
-                    new EditTextMenu(context, edt, R.menu.type);
+                    EditTextMenu editTextMenu = null;
+                    if (id == R.id.edt_is_depot) {
+                        editTextMenu = new EditTextMenu(context, editText, R.menu.menu_yes_or_no);
+                    } else {
+                        editTextMenu = new EditTextMenu(context, editText, R.menu.type);
+                    }
+                    editTextMenu.setProjet(dialog.edt_projet, dialog.layout_project);
+                    editTextMenu.setEditTextDepot(dialog.edt_is_depot);
+                    editTextMenu.setEditTextDepot(dialog.edt_is_depot);
                     break;
             }
         }

@@ -49,6 +49,10 @@ public class SweetDialog{
         lp.copyFrom(dialog.getWindow().getAttributes());
         dialog.getWindow().setAttributes(lp);
     }
+
+    public View findViewById(int idLayout) {
+        return dialog.findViewById(idLayout);
+    }
     
     public View setView(int lay, String text, String font) {
         View view = dialog.findViewById(lay);

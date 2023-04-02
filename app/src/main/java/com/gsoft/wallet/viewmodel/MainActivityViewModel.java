@@ -1,5 +1,6 @@
 package com.gsoft.wallet.viewmodel;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.content.Context;
@@ -13,6 +14,7 @@ import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Balance;
 import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
+import com.gsoft.wallet.view.activities.AdminActivity;
 import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.DialogMenu;
 import com.gsoft.wallet.view.recyclers.AdapterRecycler;
@@ -131,6 +133,9 @@ public class MainActivityViewModel
                     break;
                 case R.id.export_data:
                     db.saveFile();
+                    break;
+                case R.id.admin:
+                    mActivity.startActivity(new Intent(mActivity, AdminActivity.class));
                     break;
             }
 

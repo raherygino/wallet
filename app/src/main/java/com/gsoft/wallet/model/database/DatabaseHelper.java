@@ -10,6 +10,7 @@ import java.io.File;
 import android.os.Environment;
 
 import com.gsoft.wallet.model.models.Balance;
+import com.gsoft.wallet.model.models.Deposit;
 import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
 
@@ -37,13 +38,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TARGET = "target";
     public static final String COLUMN_DEPOSIT = "deposit";
     public static final String COLUMN_PRIORITY = "priority";
-    private Utils utils;
 
+    public static final String TABLE_DEPOSIT = "deposit";
+    public static final String COLUMN_ID_PROJECT = "id_project";
+    public static final String COLUMN_ID_TRANSACTION = "id_transaction";
+    private Utils utils;
     Context context;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        this.utils = new Utils(context);
     }
 
     @Override
@@ -65,8 +70,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PRIORITY + " INTEGER, " +
                 COLUMN_DATE + " DATETIME );";
 
+        String SQL_CREATE_DEPOSIT = "CREATE TABLE " + TABLE_DEPOSIT +
+                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ID_PROJECT + " INTEGER, " +
+                COLUMN_ID_TRANSACTION + " INTEGER, " +
+                COLUMN_DATE + " DATETIME );";
+
         db.execSQL(SQL_CREATE);
         db.execSQL(SQL_CREATE_PROJECT);
+        db.execSQL(SQL_CREATE_DEPOSIT);
     }
 
     @Override
@@ -105,7 +117,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public long deleteData(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, COLUMN_ID+" = ?", new String[]{id+""});
+        db.delete(TABLE_DEPOSIT, COLUMN_ID_TRANSACTION+" = ?", new String[]{String.valueOf(id)});
+        return db.delete(TABLE_NAME, COLUMN_ID+" = ?", new String[]{String.valueOf(id)});
     }
 
     public Cursor readData() {
@@ -113,6 +126,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_NAME+" ORDER BY "+COLUMN_ID+" DESC";
         Cursor cursor = db.rawQuery(query, null);
         return cursor;
+    }
+
+    public int maxId()  {
+        int id = 0;
+        Cursor cursor = readData();
+        if (cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            id = cursor.getInt(0);
+        }
+        return id;
     }
 
     public Balance show(int id) {
@@ -219,7 +242,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_PRIORITY, project.getPriority());
         contentValues.put(COLUMN_DEPOSIT, project.getDeposit());
         contentValues.put(COLUMN_TARGET, project.getTarget());
-        contentValues.put(COLUMN_DATE,"");
+        contentValues.put(COLUMN_DATE,utils.DateSQLFormatNow());
         return contentValues;
     }
 
@@ -269,8 +292,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public long deleteProject(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
+        String idTransaction = String.valueOf(idTransactionByProject(id));
+        db.delete(TABLE_NAME, COLUMN_ID+" = ?", new String[]{idTransaction});
+        db.delete(TABLE_DEPOSIT, COLUMN_ID_PROJECT+" = ?", new String[]{String.valueOf(id)});
         return db.delete(TABLE_PROJECT, COLUMN_ID+" = ?", new String[]{ String.valueOf(id)});
     }
 
+    /*** DEPOSIT ***/
+
+    private ContentValues valuesDeposit(Deposit deposit) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_ID_PROJECT, deposit.getIdProject());
+        contentValues.put(COLUMN_ID_TRANSACTION, deposit.getIdTransaction());
+        contentValues.put(COLUMN_DATE, utils.DateSQLFormatNow());
+        return contentValues;
+    }
+    public long insertDeposit(Deposit deposit) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.insert(TABLE_DEPOSIT, null, valuesDeposit(deposit));
+    }
+
+    public Cursor getAllDeposit() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_DEPOSIT+" ORDER BY "+COLUMN_ID+" DESC";
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+    }
+
+    public ArrayList<Deposit> listDeposit() {
+        Cursor cursor = getAllDeposit();
+        ArrayList<Deposit> listDeposit = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            listDeposit.add(getDepositFromCursor(cursor));
+        }
+        return listDeposit;
+    }
+    public int idTransactionByProject(int id) {
+        int idTransaction = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] columns = new String[]{COLUMN_ID, COLUMN_ID_PROJECT, COLUMN_ID_TRANSACTION};
+        Cursor cursor = db.query(TABLE_DEPOSIT, columns, COLUMN_ID_PROJECT+" = ?", new String[]{String.valueOf(id)},
+                null, null, null, null);
+        if (cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            idTransaction = cursor.getInt(2);
+        }
+        return idTransaction;
+    }
+
+    private Deposit getDepositFromCursor(Cursor cursor) {
+        return new Deposit(cursor.getInt(0), cursor.getInt(0), cursor.getInt(0));
+    }
 }
 

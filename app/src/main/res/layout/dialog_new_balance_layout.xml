@@ -35,26 +35,83 @@
             android:textSize="14sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:hint="Type"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:shrinkColumns="*">
+        <TableRow>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="2dp"
+                android:hint="Type"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_type"
-            android:focusable="false"
-            android:singleLine="true"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:paddingLeft="12dp"
-            android:textSize="14sp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_type"
+                    android:focusable="false"
+                    android:singleLine="true"
+                    android:paddingTop="0dp"
+                    android:text="Entrée"
+                    android:paddingBottom="0dp"
+                    android:paddingLeft="12dp"
+                    android:textSize="14sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="2dp"
+                android:hint="Dépot"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_is_depot"
+                    android:focusable="false"
+                    android:singleLine="true"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:paddingLeft="12dp"
+                    android:text="Non"
+                    android:textSize="14sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </TableRow>
+    </TableLayout>
+    <RelativeLayout
+        android:id="@+id/layout_project"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="4dp">
+        <Spinner
+            android:id="@+id/edt_projet"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="42dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/back_spinner"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Project"
+            android:layout_marginLeft="10dp"
+            android:textSize="12dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:background="@color/white"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </RelativeLayout>
+
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"

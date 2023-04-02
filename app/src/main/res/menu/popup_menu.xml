@@ -9,4 +9,8 @@
         android:id="@+id/export_data"
         android:title="Export Data" />
 
+    <item
+        android:id="@+id/admin"
+        android:title="Admin" />
+
 </menu>
