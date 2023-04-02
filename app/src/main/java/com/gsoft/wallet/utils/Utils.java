@@ -14,13 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Calendar;
-import androidx.core.app.ActivityCompat;
-import android.Manifest;
+
 import android.app.Activity;
-import java.io.File;
-import android.os.Environment;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.util.Objects;
 
 import android.widget.ImageView;
@@ -28,7 +24,7 @@ import androidx.core.content.ContextCompat;
 
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
-import com.gsoft.wallet.model.models.Balance;
+import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
 
 public class Utils{
@@ -159,18 +155,18 @@ public class Utils{
         );
     }
 
-    public ArrayList<Balance> balanceSortedByDate(DatabaseHelper db) {
-        ArrayList<Balance> list_balance = new ArrayList<>();
-        ArrayList<Balance> list_balance_db = db.listData();
+    public ArrayList<Transaction> balanceSortedByDate(DatabaseHelper db) {
+        ArrayList<Transaction> list_transaction = new ArrayList<>();
+        ArrayList<Transaction> list_transaction_db = db.listData();
         Date[] dates = {};
-        for (int i = 0; i < list_balance_db.size() ; i++) {
-            dates[i] = stringToDate(list_balance_db.get(i).getDate());
+        for (int i = 0; i < list_transaction_db.size() ; i++) {
+            dates[i] = stringToDate(list_transaction_db.get(i).getDate());
         }
         Arrays.sort(dates);
         for (Date date : dates) {
             msg(date.toString());
         }
-        return list_balance_db;
+        return list_transaction_db;
     }
     
     public void setColor(View v, int color) {

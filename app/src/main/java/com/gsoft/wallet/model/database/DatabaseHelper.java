@@ -9,7 +9,8 @@ import android.widget.Toast;
 import java.io.File;
 import android.os.Environment;
 
-import com.gsoft.wallet.model.models.Balance;
+import com.gsoft.wallet.model.models.Transaction;
+import com.gsoft.wallet.model.models.Column;
 import com.gsoft.wallet.model.models.Deposit;
 import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
@@ -26,24 +27,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "budget.db";
-
-    public static final String TABLE_NAME = "balance";
-    public static final String TABLE_PROJECT = "project";
+    /*TRANSACTION*/
+    public static final String TABLE_TRANSACTION = "trans";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_AMOUNT = "amount";
     public static final String COLUMN_TYPE = "type_trans";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_DATE = "daty";
-
+    /*PROJECT*/
+    public static final String TABLE_PROJECT = "project";
     public static final String COLUMN_TARGET = "target";
     public static final String COLUMN_DEPOSIT = "deposit";
     public static final String COLUMN_PRIORITY = "priority";
-
+    /*DEPOSIT*/
     public static final String TABLE_DEPOSIT = "deposit";
     public static final String COLUMN_ID_PROJECT = "id_project";
     public static final String COLUMN_ID_TRANSACTION = "id_transaction";
     private Utils utils;
-    Context context;
+    private Context context;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -51,86 +52,85 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.utils = new Utils(context);
     }
 
+    public void createTable(SQLiteDatabase database,String table_name, Column[] columns) {
+        StringBuilder SQL_CREATE = new StringBuilder("CREATE TABLE " + table_name + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        for (Column column: columns) {
+            SQL_CREATE.append(column.getName()).append(" ").append(column.getType()).append(", ");
+        }
+        SQL_CREATE.append(COLUMN_DATE + " DATETIME );");
+
+        database.execSQL(SQL_CREATE.toString());
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String SQL_CREATE = "CREATE TABLE " + TABLE_NAME +
-                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_AMOUNT + " INTEGER, " +
-                COLUMN_TYPE + " TEXT, " +
-                COLUMN_TITLE + " TEXT, " +
-                COLUMN_DATE + " DATETIME );";
+        Column[] transactionColumns = new Column[] {
+                new Column(COLUMN_AMOUNT, "INTEGER"),
+                new Column(COLUMN_TYPE, "TEXT"),
+                new Column(COLUMN_TITLE, "TEXT")
+        };
 
-        String SQL_CREATE_PROJECT = "CREATE TABLE " + TABLE_PROJECT +
-                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_TITLE + " TEXT, " +
-                COLUMN_TYPE + " TEXT, " +
-                COLUMN_TARGET + " INTEGER, " +
-                COLUMN_DEPOSIT + " INTEGER, " +
-                COLUMN_PRIORITY + " INTEGER, " +
-                COLUMN_DATE + " DATETIME );";
+        Column[] projectColumns = new Column[] {
+                new Column(COLUMN_TITLE, "TEXT"),
+                new Column(COLUMN_TYPE, "TEXT"),
+                new Column(COLUMN_TARGET, "INTEGER"),
+                new Column(COLUMN_DEPOSIT, "INTEGER"),
+                new Column(COLUMN_PRIORITY, "INTEGER")
+        };
 
-        String SQL_CREATE_DEPOSIT = "CREATE TABLE " + TABLE_DEPOSIT +
-                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_ID_PROJECT + " INTEGER, " +
-                COLUMN_ID_TRANSACTION + " INTEGER, " +
-                COLUMN_DATE + " DATETIME );";
+        Column[] depositColumns = new Column[] {
+                new Column(COLUMN_ID_PROJECT, "TEXT"),
+                new Column(COLUMN_ID_TRANSACTION, "TEXT"),
+        };
 
-        db.execSQL(SQL_CREATE);
-        db.execSQL(SQL_CREATE_PROJECT);
-        db.execSQL(SQL_CREATE_DEPOSIT);
+        createTable(db, TABLE_TRANSACTION, transactionColumns);
+        createTable(db, TABLE_PROJECT, projectColumns);
+        createTable(db, TABLE_DEPOSIT, depositColumns);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String SQL_DELETE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-        db.execSQL(SQL_DELETE);
+
+        String SQL_DELETE_TRANS = "DROP TABLE IF EXISTS " + TABLE_TRANSACTION;
+        String SQL_DELETE_PROJECT = "DROP TABLE IF EXISTS " + TABLE_PROJECT;
+        String SQL_DELETE_DEPOSIT = "DROP TABLE IF EXISTS " + TABLE_DEPOSIT;
+
+        db.execSQL(SQL_DELETE_TRANS);
+        db.execSQL(SQL_DELETE_PROJECT);
+        db.execSQL(SQL_DELETE_DEPOSIT);
         onCreate(db);
     }
     
-    public void importData(ArrayList<Balance> list) {
-        for (int i = 0; i < list.size(); i++) {
-            this.insertData(list.get(i));
-        }
-    }
-    
-    private ContentValues values(Balance balance, boolean isDate) {
+    private ContentValues valuesTransaction(Transaction transaction, boolean isDate) {
         ContentValues values = new ContentValues();
-        values.put(COLUMN_AMOUNT, balance.getAmout());
-        values.put(COLUMN_TYPE, balance.getType());
-        values.put(COLUMN_TITLE, balance.getTitle());
+        values.put(COLUMN_AMOUNT, transaction.getAmout());
+        values.put(COLUMN_TYPE, transaction.getType());
+        values.put(COLUMN_TITLE, transaction.getTitle());
         if (isDate) {
-            values.put(COLUMN_DATE, balance.getDate());
+            values.put(COLUMN_DATE, transaction.getDate());
         }
         return values;
     }
-
-    public long insertData(Balance balance) {
+    public long insertData(Transaction transaction) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.insert(TABLE_NAME, null, values(balance, true));
+        return db.insert(TABLE_TRANSACTION, null, valuesTransaction(transaction, true));
     }
 
-    public long updateData(int id, Balance balance) {
+    public long updateData(int id, Transaction transaction) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.update(TABLE_NAME, values(balance, false), COLUMN_ID+" = ?", new String[]{id+""});
+        return db.update(TABLE_TRANSACTION, valuesTransaction(transaction, false), COLUMN_ID+" = ?", new String[]{String.valueOf(id)});
     }
-
-    public long deleteData(int id) {
+    public Cursor getAllTransaction() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_DEPOSIT, COLUMN_ID_TRANSACTION+" = ?", new String[]{String.valueOf(id)});
-        return db.delete(TABLE_NAME, COLUMN_ID+" = ?", new String[]{String.valueOf(id)});
-    }
-
-    public Cursor readData() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME+" ORDER BY "+COLUMN_ID+" DESC";
+        String query = "SELECT * FROM " + TABLE_TRANSACTION+" ORDER BY "+COLUMN_ID+" DESC";
         Cursor cursor = db.rawQuery(query, null);
         return cursor;
     }
 
-    public int maxId()  {
+    public int getMaxIdTransaction()  {
         int id = 0;
-        Cursor cursor = readData();
+        Cursor cursor = getAllTransaction();
         if (cursor.getCount() != 0) {
             cursor.moveToFirst();
             id = cursor.getInt(0);
@@ -138,31 +138,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public Balance show(int id) {
+    public Transaction showTransaction(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Balance blc = null;
-        String query = "SELECT * FROM " + TABLE_NAME+" WHERE "+COLUMN_ID+" = '"+id+"'";
+        Transaction blc = null;
+        String query = "SELECT * FROM " + TABLE_TRANSACTION+" WHERE "+COLUMN_ID+" = '"+id+"'";
         Cursor data = db.rawQuery(query, null);
         while(data.moveToNext()) {
-            blc = new Balance(data.getString(3), data.getString(1), data.getString(2), data.getString(4));
+            blc = new Transaction(data.getString(3), data.getString(1), data.getString(2), data.getString(4));
         }
         return blc;
     }
-    
-    public ArrayList<Balance> listData() {
-        ArrayList<Balance> arrayList = new ArrayList<Balance>();
-        Cursor data = this.readData();
+
+    public ArrayList<Transaction> listTransaction() {
+        ArrayList<Transaction> arrayList = new ArrayList<Transaction>();
+        Cursor data = this.getAllTransaction();
         while (data.moveToNext()) {
-            Balance blc = new Balance(data.getString(3), data.getString(1), data.getString(2), data.getString(4));
-            blc.addId(data.getInt(0));
-            arrayList.add(blc);
+            Transaction transaction = new Transaction(data.getString(3), data.getString(1), data.getString(2), data.getString(4));
+            transaction.addId(data.getInt(0));
+            arrayList.add(transaction);
         }
         return arrayList;
     }
-    
+
+    public int total(String type) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT sum("+COLUMN_AMOUNT+") as isa FROM " + TABLE_TRANSACTION + " WHERE "+COLUMN_TYPE+" = '"+type+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        return cursor.getInt(0);
+    }
+
+    public long deleteTransaction(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_DEPOSIT, COLUMN_ID_TRANSACTION+" = ?", new String[]{String.valueOf(id)});
+        return db.delete(TABLE_TRANSACTION, COLUMN_ID+" = ?", new String[]{String.valueOf(id)});
+    }
+
+    public void importData(ArrayList<Transaction> list) {
+        for (int i = 0; i < list.size(); i++) {
+            this.insertData(list.get(i));
+        }
+    }
+
     public String exportJson() {
         String Json = "{\"data\":[";
-        ArrayList<Balance> list = this.listData();
+        ArrayList<Transaction> list = this.listTransaction();
         for (int i = 0; i < list.size(); i++) {
             Json += list.get(i).toJson()+",";
         }
@@ -170,9 +190,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Json = Json.replace(",]","]");
         return Json;
     }
-    
-    public ArrayList<Balance> jsonParse(String json) {
-        ArrayList<Balance> list = new ArrayList<Balance>();
+
+    public ArrayList<Transaction> jsonParse(String json) {
+        ArrayList<Transaction> list = new ArrayList<Transaction>();
         try {
             JSONObject object = new JSONObject(json);
             JSONArray array = object.getJSONArray("data");
@@ -182,7 +202,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String type = data.getString("type");
                 String amount = data.getString("amount");
                 String date = data.getString("date");
-                list.add(new Balance(title, amount, type, date));
+                list.add(new Transaction(title, amount, type, date));
             }
         }catch (JSONException e) {
             e.printStackTrace();
@@ -210,31 +230,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         deleteAllData();
         importData(jsonParse(file));
     }
-    
-   public int total(String type) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        // SQL Statement
-        String query = "SELECT sum("+COLUMN_AMOUNT+") as isa FROM " + TABLE_NAME + " WHERE "+COLUMN_TYPE+" = '"+type+"'";
-        Cursor cursor = db.rawQuery(query, null);
-        cursor.moveToFirst();
-        return cursor.getInt(0);
-    }
 
-    public Cursor searchData(String id) {
+    public Cursor searchTransaction(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String[] columns = new String[]{COLUMN_ID, COLUMN_TITLE, COLUMN_TYPE};
-        Cursor cursor = db.query(TABLE_NAME, columns, "ID = ?", new String[]{id},
-                null, null, null, null);
-        return cursor;
+        return db.query(TABLE_PROJECT, columns, "ID = ?", new String[]{id},null, null, null, null);
     }
 
     public void deleteAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_NAME);
+        db.execSQL("DELETE FROM " + TABLE_PROJECT);
     }
 
-    /*PROJECT*/
-
+    /**PROJECT**/
     private ContentValues valuesProject(Project project) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, project.getTitle());
@@ -246,15 +254,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return contentValues;
     }
 
-    public long insertProject(Project project) {
+    public void insertProject(Project project) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.insert(TABLE_PROJECT, null, valuesProject(project));
+        db.insert(TABLE_PROJECT, null, valuesProject(project));
     }
 
-    public Cursor readProject() {
+    public void updateProject(Project project) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update(TABLE_PROJECT, valuesProject(project), COLUMN_ID + " = ?", new String[]{String.valueOf(project.getId())});
+    }
+
+    public Cursor getAllProject() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_PROJECT+" ORDER BY "+COLUMN_ID+" DESC";
         return db.rawQuery(query, null);
+    }
+
+    public ArrayList<Project> listProject() {
+        Cursor cursor = getAllProject();
+        ArrayList<Project> list_project = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            list_project.add(getProjectFromCursor(cursor));
+        }
+        return list_project;
     }
 
     private Project getProjectFromCursor(Cursor cursor) {
@@ -268,15 +290,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return project;
     }
 
-    public ArrayList<Project> listProject() {
-        Cursor cursor = readProject();
-        ArrayList<Project> list_project = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            list_project.add(getProjectFromCursor(cursor));
-        }
-        return list_project;
-    }
-
     public Project getProjectById(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_PROJECT+" WHERE "+COLUMN_ID+" = '"+id+"'";
@@ -285,17 +298,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return getProjectFromCursor(cursor);
     }
 
-    public long updateProject(Project project) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.update(TABLE_PROJECT, valuesProject(project), COLUMN_ID+" = ?", new String[]{String.valueOf(project.getId())});
-    }
-
-    public long deleteProject(int id) {
+    public void deleteProject(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String idTransaction = String.valueOf(idTransactionByProject(id));
-        db.delete(TABLE_NAME, COLUMN_ID+" = ?", new String[]{idTransaction});
+        db.delete(TABLE_TRANSACTION, COLUMN_ID+" = ?", new String[]{idTransaction});
         db.delete(TABLE_DEPOSIT, COLUMN_ID_PROJECT+" = ?", new String[]{String.valueOf(id)});
-        return db.delete(TABLE_PROJECT, COLUMN_ID+" = ?", new String[]{ String.valueOf(id)});
+        db.delete(TABLE_PROJECT, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
     /*** DEPOSIT ***/
@@ -307,16 +315,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_DATE, utils.DateSQLFormatNow());
         return contentValues;
     }
-    public long insertDeposit(Deposit deposit) {
+    public void insertDeposit(Deposit deposit) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.insert(TABLE_DEPOSIT, null, valuesDeposit(deposit));
+        db.insert(TABLE_DEPOSIT, null, valuesDeposit(deposit));
     }
 
     public Cursor getAllDeposit() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_DEPOSIT+" ORDER BY "+COLUMN_ID+" DESC";
-        Cursor cursor = db.rawQuery(query, null);
-        return cursor;
+        return db.rawQuery(query,null);
     }
 
     public ArrayList<Deposit> listDeposit() {

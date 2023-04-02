@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
-import com.gsoft.wallet.model.models.Balance;
+import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.AdminActivity;
@@ -33,7 +33,7 @@ public class MainActivityViewModel
     private RecyclerView.LayoutManager layoutManagerTransaction, layoutManager;
     public AdapterRecycler adapterRecyclerTransaction;
     public AdapterRecyclerProject adapterRecycler;
-    public ArrayList<Balance> list;
+    public ArrayList<Transaction> list;
     public ArrayList<Project> list_project;
 
     public MainActivityViewModel(MainActivity mainActivity) {

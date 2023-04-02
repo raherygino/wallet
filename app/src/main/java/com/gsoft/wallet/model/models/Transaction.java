@@ -2,7 +2,7 @@ package com.gsoft.wallet.model.models;
 
 import com.gsoft.wallet.utils.Utils;
 
-public class Balance
+public class Transaction
 {
     private int id;
     private final String amount;
@@ -12,7 +12,7 @@ public class Balance
     public String ICON;
     public int COLOR;
 
-    public Balance(String nTitle, String nAmount,String nType, String  nDate) {
+    public Transaction(String nTitle, String nAmount, String nType, String  nDate) {
         this.amount = nAmount;
         this.title = nTitle;
         this.type = nType;

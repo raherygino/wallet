@@ -1,18 +1,13 @@
 package com.gsoft.wallet.viewmodel;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.PopupMenu;
-import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
-import com.gsoft.wallet.model.models.Balance;
+import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.model.models.Deposit;
 import com.gsoft.wallet.utils.EditTextMenu;
 import com.gsoft.wallet.utils.Utils;
@@ -43,7 +38,7 @@ public class DialogEditBalanceViewModel
     public void setData() {
         
         if (dialog.position != -1) {
-            Balance blc =  mainActivity.viewModel.list.get(dialog.position);
+            Transaction blc =  mainActivity.viewModel.list.get(dialog.position);
             this.balance_id = blc.getId();
             blc = database.show(balance_id);
             this.dialog.edt_title.setText(blc.getTitle());
@@ -71,14 +66,14 @@ public class DialogEditBalanceViewModel
                     String amount = dialog.edt_amount.getText().toString();
                     String type = dialog.edt_type.getText().toString();
                     String title = dialog.edt_title.getText().toString();
-                    Balance blc = new Balance(title, amount, type, utils.DateSQLFormatNow());
+                    Transaction blc = new Transaction(title, amount, type, utils.DateSQLFormatNow());
                     if (amount.isEmpty()) { utils.msg("Montant invalide"); }
                     else {
                         if (title.isEmpty()) { utils.msg("Titre invalide"); }
                         else {
 
                             if (dialog.position != -1) {
-                                Balance blc_update = new Balance(title, amount, type, utils.DateSQLFormatNow());
+                                Transaction blc_update = new Transaction(title, amount, type, utils.DateSQLFormatNow());
                                 database.updateData(balance_id, blc_update);
                                 mainActivity.viewModel.list.clear();
                                 mainActivity.viewModel.list.addAll(database.listData());

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import androidx.core.content.ContextCompat;
 
 import com.gsoft.wallet.R;
-import com.gsoft.wallet.model.models.Balance;
+import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
@@ -23,13 +23,13 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
     
     Context context;
     Utils utils;
-    ArrayList<Balance> balance;
+    ArrayList<Transaction> transaction;
     ConfirmDialog confirm_dial;
     RecyclerView rView;
     
-    public AdapterRecycler(Context context, ArrayList<Balance> nBalance, RecyclerView recyclerView) {
+    public AdapterRecycler(Context context, ArrayList<Transaction> nTransaction, RecyclerView recyclerView) {
         this.context = context;
-        this.balance = nBalance;
+        this.transaction = nTransaction;
         this.utils = new Utils(context);
         this.rView = recyclerView;
     }
@@ -50,11 +50,11 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
         utils.setFont(myHolder.unity, "Light");
         utils.setFont(myHolder.date, "Light");
         
-        Balance item = balance.get(i);
+        Transaction item = transaction.get(i);
         myHolder.title.setText(item.getTitle());
         myHolder.date.setText(utils.formatDate(item.getFormatedDate())+" "+item.getTime());
         
-        if (balance.get(i).getType().indexOf("Sortie") != -1) {
+        if (transaction.get(i).getType().indexOf("Sortie") != -1) {
             myHolder.image.setImageDrawable(utils.getDrawable("ic_orbit_money_transfer_out"));
             setColorItem(myHolder, R.color.red_400);
             myHolder.amount.setText("-"+item.getFormatedAmount(utils));
@@ -76,7 +76,7 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
     
     public void remove(int i) 
     {
-        balance.remove(i);
+        transaction.remove(i);
         rView.removeAllViews();
     }
     
@@ -93,8 +93,8 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
         {
             String del = "Supprimer";
             String edit = "Modifier";
-            String title = balance.get(position).getTitle();
-            String amount = balance.get(position).getFormatedAmount(utils);
+            String title = transaction.get(position).getTitle();
+            String amount = transaction.get(position).getFormatedAmount(utils);
             utils.btnClick(view);
             
             confirm_dial = new ConfirmDialog(context, title, amount);
@@ -114,7 +114,7 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
                 public void onClick(View p) {
                    if (context instanceof MainActivity) {
                        MainActivity mAct = (MainActivity)context;
-                       mAct.viewModel.delete(balance.get(position).getId());
+                       mAct.viewModel.delete(transaction.get(position).getId());
                        mAct.viewModel.refresh();
                    }
                     
@@ -131,7 +131,7 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyHold
     
     @Override
     public int getItemCount() {
-        return balance.size();
+        return transaction.size();
     }
     
     public static class MyHolder extends RecyclerView.ViewHolder 
