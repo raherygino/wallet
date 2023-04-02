@@ -180,7 +180,7 @@ public class Utils{
         }
     }
 
-    private String getString(int resId) {
+    public String getString(int resId) {
         return activity.getString(resId);
     }
     
