@@ -14,7 +14,7 @@ import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.EditTransactionDialog;
 
-public class DialogEditBalanceViewModel
+public class DialogEditTransactionViewModel
 {
     private final Context context;
     private final Utils utils;
@@ -23,7 +23,7 @@ public class DialogEditBalanceViewModel
     private final MainActivity mainActivity;
     private int transactionId = 0;
     
-    public DialogEditBalanceViewModel(EditTransactionDialog dialog) {
+    public DialogEditTransactionViewModel(EditTransactionDialog dialog) {
         this.context = dialog.context;
         this.dialog = dialog;
         this.utils = new Utils(context);

@@ -14,7 +14,7 @@ import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
-import com.gsoft.wallet.viewmodel.DialogEditBalanceViewModel;
+import com.gsoft.wallet.viewmodel.DialogEditTransactionViewModel;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class EditTransactionDialog extends SweetDialog
     public EditText editTitle, editAmount, editType, editIsDepot;
     public Spinner editProject;
     public Button buttonOk;
-    public DialogEditBalanceViewModel viewModel;
+    public DialogEditTransactionViewModel viewModel;
     public Context context;
     public int position = -1;
     private DatabaseHelper database;
@@ -39,7 +39,7 @@ public class EditTransactionDialog extends SweetDialog
         this.database = new DatabaseHelper(context);
         this.initView();
         this.setConfigSpinner();
-        this.viewModel = new DialogEditBalanceViewModel(this);
+        this.viewModel = new DialogEditTransactionViewModel(this);
         this.utils = new Utils(context);
         this.idProject = 0;
         super.onCancel(R.id.dialog_nb_btn_cancel);
