@@ -90,7 +90,7 @@ public class SweetDialog{
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                dialog.dismiss();
+                dialog.cancel();
             }
         });
     }

@@ -13,6 +13,7 @@ import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.model.models.Column;
 import com.gsoft.wallet.model.models.Deposit;
 import com.gsoft.wallet.model.models.Project;
+import com.gsoft.wallet.model.models.User;
 import com.gsoft.wallet.utils.Utils;
 
 import java.io.FileOutputStream;
@@ -43,6 +44,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_DEPOSIT = "deposit";
     public static final String COLUMN_ID_PROJECT = "id_project";
     public static final String COLUMN_ID_TRANSACTION = "id_transaction";
+    /** USER **/
+    public static final String TABLE_USER = "user";
+    public static final String COLUMN_LAST_NAME = "lastname";
+    public static final String COLUMN_FIRST_NAME = "firstname";
+    public static final String COLUMN_EMAIL = "email";
     private Utils utils;
     private Context context;
 
@@ -80,13 +86,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
 
         Column[] depositColumns = new Column[] {
-                new Column(COLUMN_ID_PROJECT, "TEXT"),
-                new Column(COLUMN_ID_TRANSACTION, "TEXT"),
+                new Column(COLUMN_ID_PROJECT, "INTEGER"),
+                new Column(COLUMN_ID_TRANSACTION, "INTEGER"),
+        };
+
+        Column[] userColumns = new Column[] {
+                new Column(COLUMN_LAST_NAME, "TEXT"),
+                new Column(COLUMN_FIRST_NAME, "TEXT"),
+                new Column(COLUMN_EMAIL, "TEXT"),
         };
 
         createTable(db, TABLE_TRANSACTION, transactionColumns);
         createTable(db, TABLE_PROJECT, projectColumns);
         createTable(db, TABLE_DEPOSIT, depositColumns);
+        createTable(db, TABLE_USER, userColumns);
     }
 
     @Override
@@ -95,10 +108,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String SQL_DELETE_TRANS = "DROP TABLE IF EXISTS " + TABLE_TRANSACTION;
         String SQL_DELETE_PROJECT = "DROP TABLE IF EXISTS " + TABLE_PROJECT;
         String SQL_DELETE_DEPOSIT = "DROP TABLE IF EXISTS " + TABLE_DEPOSIT;
+        String SQL_DELETE_USER = "DROP TABLE IF EXISTS " + TABLE_USER;
 
         db.execSQL(SQL_DELETE_TRANS);
         db.execSQL(SQL_DELETE_PROJECT);
         db.execSQL(SQL_DELETE_DEPOSIT);
+        db.execSQL(SQL_DELETE_USER);
         onCreate(db);
     }
     
@@ -376,6 +391,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_ID_PROJECT+" = ? AND "+COLUMN_ID_TRANSACTION+" = ? ",
                 new String[]{String.valueOf(idProject), String.valueOf(idTrans)}
         );
+    }
+
+    /*** User ***/
+    private ContentValues valuesUser(User user) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_LAST_NAME, user.getLastName());
+        contentValues.put(COLUMN_FIRST_NAME, user.getFirstName());
+        contentValues.put(COLUMN_EMAIL, user.getEmail());
+        contentValues.put(COLUMN_DATE, utils.DateSQLFormatNow());
+        return contentValues;
+    }
+    public void insertUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(TABLE_USER, null, valuesUser(user));
+    }
+
+    public void updateUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update(TABLE_USER, valuesUser(user), COLUMN_ID + " = ?", new String[]{String.valueOf(user.getId())});
+    }
+
+    public Cursor getAllUser() {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String query = "SELECT * FROM "+TABLE_USER;
+        return database.rawQuery(query, null);
+    }
+
+    public User getUser() {
+        User user = null;
+        Cursor cursor = getAllUser();
+        if (cursor.getCount() > 0) {
+            cursor.moveToLast();
+            user = new User(
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3)
+            );
+            user.setId(cursor.getInt(0));
+        }
+        return user;
     }
 }
 

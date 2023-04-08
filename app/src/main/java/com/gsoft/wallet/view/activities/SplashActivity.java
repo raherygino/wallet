@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.gsoft.wallet.R;
-import com.gsoft.wallet.utils.Utils;
+import com.gsoft.wallet.model.database.DatabaseHelper;
+import com.gsoft.wallet.view.dialog.ProfileDialog;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
@@ -14,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Utils utils = new Utils(this);
+        DatabaseHelper database = new DatabaseHelper(this);
         Thread splash=new Thread() {
             public void run() {
                 try{
@@ -22,10 +25,16 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();
                 }catch (Exception e){
-                    utils.toast(e.getMessage());
+                    Log.d("Exception", e.getMessage());
                 }
             }
         };
-        splash.start();
+
+        if (database.getUser() == null) {
+            ProfileDialog dialog = new ProfileDialog(SplashActivity.this);
+            dialog.show();
+        } else {
+            splash.start();
+        }
     }
 }

@@ -25,12 +25,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:hint="@string/first_name"
+                android:hint="@string/last_name"
                 android:layout_marginRight="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_first_name"
+                    android:id="@+id/edit_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:singleLine="true"
@@ -46,11 +46,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginLeft="2dp"
-                android:hint="@string/last_name"
+                android:hint="@string/first_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_last_name"
+                    android:id="@+id/edit_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:singleLine="true"
@@ -91,20 +91,20 @@
         tools:ignore="RtlHardcoded">
 
         <Button
-            android:id="@+id/dialog_nb_btn_cancel"
+            android:id="@+id/profile_btn_cancel"
             android:background="@color/transparent"
             android:layout_width="wrap_content"
             android:layout_height="34dp"
             android:padding="0dp"
             android:textColor="@color/blue_500"
             android:textAllCaps="false"
-            android:text="Annuler"/>
+            android:text="@string/cancel"/>
         <Button
-            android:id="@+id/dialog_nb_btn_ok"
+            android:id="@+id/profile_btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="34dp"
             style="@style/ButtonPrimary"
-            android:text="Ok"
+            android:text="@string/ok"
             android:textAllCaps="false"
             android:textColor="@color/white"/>
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.gsoft.wallet.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TableLayout;
@@ -23,9 +24,12 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
         DatabaseHelper database = new DatabaseHelper(this);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+        TableLayout tableUser = findViewById(R.id.table_user);
         TableLayout tableDeposit = findViewById(R.id.table_deposit);
         TableLayout tableProject = findViewById(R.id.table_project);
         TableLayout tableTransaction = findViewById(R.id.table_transaction);
+        createTableFromDatabase(database.getAllUser(), tableUser);
         createTableFromDatabase(database.getAllDeposit(), tableDeposit);
         createTableFromDatabase(database.getAllProject(), tableProject);
         createTableFromDatabase(database.getAllTransaction(), tableTransaction);

@@ -13,6 +13,7 @@ import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.model.models.Project;
+import com.gsoft.wallet.model.models.User;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.AdminActivity;
 import com.gsoft.wallet.view.activities.MainActivity;
@@ -73,6 +74,8 @@ public class MainActivityViewModel
     
     public void refresh() {
         int total = database.total(utils.getString(R.string.in)) - database.total(utils.getString(R.string.out));
+        User user = database.getUser();
+        mActivity.home_username.setText(user.getLastName());
         mActivity.home_income.setText(utils.numberFormat(String.valueOf(database.total(utils.getString(R.string.in)))));
         mActivity.home_outcome.setText(utils.numberFormat(String.valueOf(database.total(utils.getString(R.string.out)))));
         mActivity.home_balance.setText(utils.numberFormat(String.valueOf(total)));
