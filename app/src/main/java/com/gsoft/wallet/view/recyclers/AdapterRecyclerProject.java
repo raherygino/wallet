@@ -4,9 +4,11 @@ import static com.gsoft.wallet.utils.Utils.LIGHT;
 import static com.gsoft.wallet.utils.Utils.REGULAR;
 import static com.gsoft.wallet.utils.Utils.SEMI_BOLD;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.View;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ImageView;
 
@@ -62,7 +65,13 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
         String type = listProject.get(i).getType();
         String target = utils.numberFormat(String.valueOf(listProject.get(i).getTarget()));
         String deposit = utils.numberFormat(String.valueOf(listProject.get(i).getDeposit()));
-
+        int percent = (listProject.get(i).getDeposit() * 100)/listProject.get(i).getTarget();
+        myHolder.progressBar.setProgress(percent);
+        if (listProject.get(i).isCompleted()) {
+            myHolder.stats.setText("Terminé");
+            myHolder.stats.setBackgroundResource(R.drawable.back_badge_success);
+            myHolder.stats.setTextColor(ContextCompat.getColor(context, R.color.green_400));
+        }
         myHolder.title.setText(title);
         myHolder.type.setText(type);
         myHolder.target.setText(target);
@@ -79,11 +88,13 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
 
     public static class MyHolder extends RecyclerView.ViewHolder 
     {
-        TextView title,type, titleDeposit, titleTarget, deposit, target;
+        TextView title,type, titleDeposit, titleTarget, deposit, target, stats;
+        ProgressBar progressBar;
         ImageView btn_more;
         LinearLayout color_priority;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
+            stats = itemView.findViewById(R.id.item_project_stats);
             title = itemView.findViewById(R.id.item_project_title);
             type = itemView.findViewById(R.id.item_project_type);
             titleDeposit = itemView.findViewById(R.id.item_project_title_deposit);
@@ -91,6 +102,7 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
             deposit = itemView.findViewById(R.id.item_project_deposit);
             target = itemView.findViewById(R.id.item_project_target);
             color_priority = itemView.findViewById(R.id.color_priority);
+            progressBar = itemView.findViewById(R.id.item_project_progress);
             btn_more = itemView.findViewById(R.id.item_project_btn_more);
         }
     }

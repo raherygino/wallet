@@ -15,6 +15,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/item_project_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_badge_primary"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/blue_500"
+            android:paddingBottom="0.5dp"
+            android:text="En cours"
+            android:textSize="11dp"/>
+
         <ImageView
             android:id="@+id/item_project_btn_more"
             android:layout_width="wrap_content"
@@ -29,8 +43,8 @@
         <LinearLayout
             android:id="@+id/color_priority"
             android:layout_marginTop="25dp"
-            android:layout_width="8dp"
-            android:layout_height="45dp"
+            android:layout_width="6dp"
+            android:layout_height="75dp"
             android:background="@drawable/border_style_primary"
             android:orientation="horizontal" />
     
@@ -51,14 +65,17 @@
             android:layout_marginTop="45dp"
             android:layout_marginStart="16dp"
             android:textSize="16dp"/>
-    
-        <LinearLayout
+
+        <ProgressBar
+            android:id="@+id/item_project_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/back_progress_primary"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="77dp"
-            android:background="@color/grey_200"
-            android:layout_marginEnd="12dp"
-            android:layout_marginStart="12dp"/>
+            android:layout_height="2.5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="75dp"
+            android:layout_marginRight="15dp"
+            android:progress="65" />
         
         <TableLayout
             android:layout_width="match_parent"
@@ -112,7 +129,6 @@
                 </LinearLayout>
             </TableRow>
         </TableLayout>
-        
     </RelativeLayout> 
 </androidx.cardview.widget.CardView>
     
