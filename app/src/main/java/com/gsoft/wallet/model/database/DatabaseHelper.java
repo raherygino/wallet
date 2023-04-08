@@ -175,6 +175,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    public int getAmountTransById(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_TRANSACTION+" WHERE "+COLUMN_ID+" = '"+id+"'";
+        Cursor cursor = db.rawQuery(query,null);
+        int amount = 0;
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            amount = cursor.getInt(1);
+        }
+        return amount;
+    }
+
     public int total(String type) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT sum("+COLUMN_AMOUNT+") as isa FROM " + TABLE_TRANSACTION + " WHERE "+COLUMN_TYPE+" = '"+type+"'";
@@ -295,13 +307,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private Project getProjectFromCursor(Cursor cursor) {
+        int id = cursor.getInt(0);
         String title = cursor.getString(1);
         String type = cursor.getString(2);
         int target = cursor.getInt(3);
-        int diposit = cursor.getInt(4);
         int priority = cursor.getInt(5);
+        int diposit = getTotalDepositProject(id);
         Project project = new Project(title, type, priority, target,diposit);
-        project.setId(cursor.getInt(0));
+        project.setId(id);
         return project;
     }
 
@@ -338,6 +351,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_DEPOSIT+" ORDER BY "+COLUMN_ID+" DESC";
         return db.rawQuery(query,null);
+    }
+
+    public ArrayList<Integer> getIdTransactionByProject(int idProject) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<Integer> list = new ArrayList<>();
+        String[] columns = new String[]{COLUMN_ID, COLUMN_ID_PROJECT, COLUMN_ID_TRANSACTION};
+        Cursor cursor = db.query(TABLE_DEPOSIT, columns, COLUMN_ID_PROJECT+" = ?", new String[]{String.valueOf(idProject)},
+                null, null, null, null);
+        while (cursor.moveToNext()) {
+            list.add(cursor.getInt(2));
+        }
+        return list;
+    }
+
+    public int getTotalDepositProject(int idProject) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<Integer> listId = getIdTransactionByProject(idProject);
+        int amount = 0;
+        for (int id : listId) {
+            amount += getAmountTransById(id);
+        }
+        return amount;
     }
 
     public ArrayList<Deposit> listDeposit() {

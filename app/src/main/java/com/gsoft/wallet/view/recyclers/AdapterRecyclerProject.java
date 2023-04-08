@@ -57,10 +57,16 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
         utils.setFont(myHolder.titleTarget, REGULAR);
         utils.setFont(myHolder.deposit, LIGHT);
         utils.setFont(myHolder.target, LIGHT);
-        myHolder.title.setText(listProject.get(i).getTitle());
-        myHolder.type.setText(listProject.get(i).getType());
-        myHolder.target.setText(utils.numberFormat(String.valueOf(listProject.get(i).getTarget())));
-        myHolder.deposit.setText(utils.numberFormat(String.valueOf(listProject.get(i).getDeposit())));
+
+        String title = listProject.get(i).getTitle();
+        String type = listProject.get(i).getType();
+        String target = utils.numberFormat(String.valueOf(listProject.get(i).getTarget()));
+        String deposit = utils.numberFormat(String.valueOf(listProject.get(i).getDeposit()));
+
+        myHolder.title.setText(title);
+        myHolder.type.setText(type);
+        myHolder.target.setText(target);
+        myHolder.deposit.setText(deposit);
         myHolder.color_priority.setBackgroundResource(listProject.get(i).colorPriority());
         myHolder.btn_more.setOnClickListener(new btnMoreOnClick(listProject.get(i).getId()));
     }

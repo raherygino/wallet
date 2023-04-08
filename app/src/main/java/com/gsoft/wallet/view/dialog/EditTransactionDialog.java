@@ -64,10 +64,13 @@ public class EditTransactionDialog extends SweetDialog
         ArrayList<Project> listProject = database.listProject();
         String[] allProject = new String[listProject.size()];
         projectIds = new int[listProject.size()];
-        idProject = projectIds[0];
-        for (int i = 0; i < listProject.size(); i++) {
-            allProject[i] = listProject.get(i).getTitle();
-            projectIds[i] = listProject.get(i).getId();
+
+        if (projectIds.length > 0) {
+            idProject = projectIds[0];
+            for (int i = 0; i < listProject.size(); i++) {
+                allProject[i] = listProject.get(i).getTitle();
+                projectIds[i] = listProject.get(i).getId();
+            }
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, allProject);

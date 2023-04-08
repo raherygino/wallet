@@ -31,6 +31,14 @@ public class Project {
         return priority;
     }
 
+    public boolean isCompleted() {
+        return target == deposit;
+    }
+
+    public int getRest() {
+        return target - deposit;
+    }
+
     public int colorPriority() {
         int color = 0;
         if (priority == 1) {

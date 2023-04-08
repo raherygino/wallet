@@ -79,40 +79,8 @@ public class DialogEditTransactionViewModel
             
             switch(id) {
                 case R.id.dialog_nb_btn_ok:
-                    String amount = dialog.editAmount.getText().toString();
-                    String type = dialog.editType.getText().toString();
-                    String title = dialog.editTitle.getText().toString();
-                    Transaction blc = new Transaction(title, amount, type, utils.DateSQLFormatNow());
-
-                    if (amount.isEmpty()) {
-                        utils.toast(utils.getString(R.string.message_amount_invalid));
-                    } else {
-
-                        if (title.isEmpty()) {
-                            utils.toast(utils.getString(R.string.message_title_invalid));
-                        } else {
-
-                            if (dialog.position != -1) {
-                                Transaction blc_update = new Transaction(title, amount, type, utils.DateSQLFormatNow());
-                                database.updateData(transactionId, blc_update);
-                                database.deleteDepositByIdProjectTrans(dialog.idProject, transactionId);
-                                mainActivity.viewModel.listTransaction.clear();
-                                mainActivity.viewModel.listTransaction.addAll(database.listTransaction());
-                                mainActivity.viewModel.adapterRecyclerTransaction.notifyDataSetChanged();
-                            }
-                            else {
-                                database.insertData(blc);
-                                mainActivity.viewModel.listTransaction.add(0, blc);
-                                mainActivity.viewModel.adapterRecyclerTransaction.notifyItemInserted(0);
-                            }
-                            if (dialog.editIsDepot.getText().toString().equals(utils.getString(R.string.yes))) {
-                                database.insertDeposit(new Deposit(0, dialog.idProject, database.getMaxIdTransaction()));
-                            }
-                            mainActivity.viewModel.refresh();
-                            dialog.dismiss();
-                        }
-                    }
-                   break;
+                    insertOrUpdate();
+                    break;
                    
                 case R.id.edt_is_depot:
                 case R.id.edt_type:
@@ -133,6 +101,42 @@ public class DialogEditTransactionViewModel
                         editTextMenu.setEditTextDepot(dialog.editIsDepot);
                     }
                     break;
+            }
+        }
+    }
+
+    public void insertOrUpdate() {
+        String amount = dialog.editAmount.getText().toString();
+        String type = dialog.editType.getText().toString();
+        String title = dialog.editTitle.getText().toString();
+        Transaction blc = new Transaction(title, amount, type, utils.DateSQLFormatNow());
+
+        if (amount.isEmpty()) {
+            utils.toast(utils.getString(R.string.message_amount_invalid));
+        } else {
+
+            if (title.isEmpty()) {
+                utils.toast(utils.getString(R.string.message_title_invalid));
+            } else {
+
+                if (dialog.position != -1) {
+                    Transaction blc_update = new Transaction(title, amount, type, utils.DateSQLFormatNow());
+                    database.updateData(transactionId, blc_update);
+                    database.deleteDepositByIdProjectTrans(dialog.idProject, transactionId);
+                    mainActivity.viewModel.listTransaction.clear();
+                    mainActivity.viewModel.listTransaction.addAll(database.listTransaction());
+                    mainActivity.viewModel.adapterRecyclerTransaction.notifyDataSetChanged();
+                }
+                else {
+                    database.insertData(blc);
+                    mainActivity.viewModel.listTransaction.add(0, blc);
+                    mainActivity.viewModel.adapterRecyclerTransaction.notifyItemInserted(0);
+                }
+                if (dialog.editIsDepot.getText().toString().equals(utils.getString(R.string.yes))) {
+                    database.insertDeposit(new Deposit(0, dialog.idProject, database.getMaxIdTransaction()));
+                }
+                mainActivity.viewModel.refresh();
+                dialog.dismiss();
             }
         }
     }

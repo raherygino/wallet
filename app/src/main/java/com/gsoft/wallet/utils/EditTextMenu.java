@@ -9,6 +9,10 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import com.gsoft.wallet.R;
+import com.gsoft.wallet.model.database.DatabaseHelper;
+import com.gsoft.wallet.model.models.Project;
+
+import java.util.ArrayList;
 
 public class EditTextMenu {
     private EditText isDepot;
@@ -24,10 +28,18 @@ public class EditTextMenu {
             public boolean onMenuItemClick(MenuItem item)
             {
                 int id = item.getItemId();
+                edt.setText(item.getTitle().toString());
 
                 switch (id) {
                     case R.id.yes:
-                        layoutProject.setVisibility(View.VISIBLE);
+                        ArrayList<Project> listProject = new DatabaseHelper(context).listProject();
+                        int countProject = listProject.size();
+                        if (countProject > 0) {
+                            layoutProject.setVisibility(View.VISIBLE);
+                        } else {
+                            new Utils(context).toast("Aucun projet");
+                            edt.setText(activity.getString(R.string.no));
+                        }
                         break;
 
                     case R.id.no:
@@ -45,7 +57,6 @@ public class EditTextMenu {
                         isDepot.setText(activity.getString(R.string.no));
                         break;
                 }
-                edt.setText(item.getTitle().toString());
                 return true;
             }
         });
