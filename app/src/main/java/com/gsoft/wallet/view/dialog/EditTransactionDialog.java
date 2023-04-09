@@ -10,11 +10,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.viewmodel.DialogEditTransactionViewModel;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -23,6 +26,7 @@ public class EditTransactionDialog extends SweetDialog
     public Dialog dialog;
     public String title, amount, type;
     public EditText editTitle, editAmount, editType, editIsDepot;
+    public TextInputLayout layoutTitle;
     public Spinner editProject;
     public Button buttonOk;
     public DialogEditTransactionViewModel viewModel;
@@ -57,6 +61,7 @@ public class EditTransactionDialog extends SweetDialog
         editProject = (Spinner) super.setView(R.id.edt_projet, "", "Regular");
         editIsDepot = (EditText) super.setView(R.id.edt_is_depot, "", "Regular");
         layoutProject = (RelativeLayout) super.findViewById(R.id.layout_project);
+        layoutTitle = (TextInputLayout) super.findViewById(R.id.layout_title);
         buttonOk = (Button) super.setView(R.id.dialog_nb_btn_ok, "Ok", "Regular");
     }
 

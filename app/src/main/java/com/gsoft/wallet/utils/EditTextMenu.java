@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+
+import com.google.android.material.textfield.TextInputLayout;
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Project;
@@ -15,6 +17,7 @@ import com.gsoft.wallet.model.models.Project;
 import java.util.ArrayList;
 
 public class EditTextMenu {
+    private TextInputLayout layoutTitle;
     private EditText isDepot;
     private RelativeLayout layoutProject;
     public EditTextMenu(Context context, EditText edt, int menu) {
@@ -40,20 +43,24 @@ public class EditTextMenu {
                             new Utils(context).toast("Aucun projet");
                             edt.setText(activity.getString(R.string.no));
                         }
+                        layoutTitle.setVisibility(View.GONE);
                         break;
 
                     case R.id.no:
                         layoutProject.setVisibility(View.GONE);
+                        layoutTitle.setVisibility(View.VISIBLE);
                         break;
 
                     case R.id.outcome:
                         isDepot.setEnabled(true);
                         isDepot.setText(activity.getString(R.string.no));
+                        layoutTitle.setVisibility(View.VISIBLE);
                         break;
 
                     case R.id.income:
                         isDepot.setEnabled(false);
                         layoutProject.setVisibility(View.GONE);
+                        layoutTitle.setVisibility(View.VISIBLE);
                         isDepot.setText(activity.getString(R.string.no));
                         break;
                 }
@@ -61,6 +68,10 @@ public class EditTextMenu {
             }
         });
         popupMenu.show();
+    }
+
+    public void setLayoutTitle(TextInputLayout layoutTitle) {
+        this.layoutTitle = layoutTitle;
     }
 
     public void setProjetLayout(RelativeLayout layoutProject) {
