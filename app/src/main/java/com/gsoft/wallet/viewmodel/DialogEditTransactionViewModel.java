@@ -115,7 +115,6 @@ public class DialogEditTransactionViewModel
         if (isDeposit) {
             title = "Depot "+database.getProjectById(dialog.idProject).getTitle();
         }
-        Transaction blc = new Transaction(title, amount, type, utils.DateSQLFormatNow());
 
         if (amount.isEmpty()) {
             dialog.editAmount.setError(utils.getString(R.string.message_amount_invalid));
@@ -134,15 +133,23 @@ public class DialogEditTransactionViewModel
                     mainActivity.viewModel.adapterRecyclerTransaction.notifyDataSetChanged();
                 }
                 else {
-                    database.insertData(blc);
-                    mainActivity.viewModel.listTransaction.add(0, blc);
+                    Transaction transaction = new Transaction(title, amount, type, utils.DateSQLFormatNow());
+                    database.insertData(transaction);
+                    mainActivity.viewModel.listTransaction.add(0, transaction);
                     mainActivity.viewModel.adapterRecyclerTransaction.notifyItemInserted(0);
                 }
                 if (dialog.editIsDepot.getText().toString().equals(utils.getString(R.string.yes)) && type.equals(utils.getString(R.string.out))) {
-                    database.insertDeposit(new Deposit(0, dialog.idProject, database.getMaxIdTransaction()));
+                    int rest = database.getProjectById(dialog.idProject).getRest();
+                    if (rest > Integer.parseInt(amount)) {
+                        database.insertDeposit(new Deposit(0, dialog.idProject, database.getMaxIdTransaction()));
+                        dialog.dismiss();
+                    } else {
+                        dialog.editAmount.setError(utils.getString(R.string.message_rest_under_amount));
+                    }
+                } else {
+                    dialog.dismiss();
                 }
                 mainActivity.viewModel.refresh();
-                dialog.dismiss();
             }
         }
     }

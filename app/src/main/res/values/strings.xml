@@ -14,6 +14,7 @@
     <!-- Message -->
     <string name="message_amount_invalid">Montant invalide</string>
     <string name="message_title_invalid">Titre invalide</string>
+    <string name="message_rest_under_amount">Montant supérieur au montant reste du projet</string>
 
     <!-- Title -->
     <string name="current_balance">Balance</string>
