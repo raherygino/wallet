@@ -53,7 +53,8 @@ public class BottomNav
                     index = i-1;
                 }
                 LinearLayout linearLayout = (LinearLayout) tableRow.getChildAt(i);
-                allItems.add(new NavItem(linearLayout, listIconItems[index]));
+                NavItem item = new NavItem(linearLayout, listIconItems[index]);
+                allItems.add(item);
             }
         }
         return allItems;
@@ -82,6 +83,7 @@ public class BottomNav
             item.getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    utils.btnClick(view);
                     viewPager.setCurrentItem(index, true);
                 }
             });

@@ -11,7 +11,7 @@ import com.gsoft.wallet.R;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.navbar.BottomNav;
 import com.gsoft.wallet.view.tab.TabHome;
-import com.gsoft.wallet.view.tab.TabSettings;
+import com.gsoft.wallet.view.tab.TabProfile;
 import com.gsoft.wallet.view.tab.TabProject;
 import com.gsoft.wallet.view.tab.TabTransaction;
 
@@ -66,12 +66,11 @@ public class HomeActivity extends AppCompatActivity {
                 case 2:
                     return new TabProject();
                 case 3:
-                    return new TabSettings();
+                    return new TabProfile();
                 default:
                     return null;
             }
         }
-
 
         // will be displayed as the tab's label
         @Override
@@ -85,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
                 case 2:
                     return "PROJECT";
                 case 3:
-                    return "SETTINGS";
+                    return "PROFILE";
                 default:
                     return null;
             }

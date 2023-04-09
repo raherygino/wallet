@@ -7,17 +7,16 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import com.gsoft.wallet.R;
 
-public class TabSettings extends Fragment {
+public class TabProfile extends Fragment {
 
-    public TabSettings() {
+    public TabProfile() {
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.tab_settings, container, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.tab_profile, container, false);
 
         return view;
     }

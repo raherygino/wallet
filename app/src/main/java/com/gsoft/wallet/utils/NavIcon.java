@@ -2,9 +2,9 @@ package com.gsoft.wallet.utils;
 
 public enum NavIcon {
     HOME("ic_home", "ic_home_rounded_32"),
-    TRANSACTION("ic_calendar", "ic_calendar_outline"),
-    PROJECT("ic_bell", "ic_bell_outline"),
-    SETTINGS("ic_account", "ic_account_outline");
+    TRANSACTION("ic_wallet_fill", "ic_wallet"),
+    PROJECT("ic_chart_fill", "ic_chart"),
+    PROFILE("ic_account", "ic_account_outline");
     public final String active;
     public final String inactive;
     private NavIcon(String active, String inactive) {
