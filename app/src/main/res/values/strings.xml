@@ -22,7 +22,8 @@
     <string name="first_name">Prénom</string>
     <string name="last_name">Nom</string>
     <string name="project">Projet</string>
-    <string name="total_income">Total income</string>
+    <string name="total_income">Total revenu</string>
+    <string name="total_outcome">Total dépense</string>
     <string name="transaction">Transaction</string>
     <string name="empty">Vide</string>
 

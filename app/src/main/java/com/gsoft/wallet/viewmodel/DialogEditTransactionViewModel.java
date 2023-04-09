@@ -150,6 +150,7 @@ public class DialogEditTransactionViewModel
                     dialog.dismiss();
                 }
                 mainActivity.viewModel.refresh();
+                mainActivity.viewModel.refreshProject();
             }
         }
     }

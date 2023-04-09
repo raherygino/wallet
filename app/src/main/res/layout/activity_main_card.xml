@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:textColor="@color/white"
-                        android:text="@string/total_income"
+                        android:text="@string/total_outcome"
                         android:layout_alignParentEnd="true"/>
 
                     <TextView

@@ -58,8 +58,6 @@ public class NavBarViewModel
                         break;
                     case 2:
                         setItem(v, color,"ic_account");
-                        ProfileDialog dialog = new ProfileDialog(bottomNav.mActivity);
-                        dialog.show();
                         break;
                     case 4:
                         setItem(v, color,"ic_calendar");
