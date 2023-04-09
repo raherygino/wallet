@@ -19,7 +19,7 @@
     <ImageView
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="25dp"
         android:src="@drawable/back_nav_bottom"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
@@ -68,12 +68,12 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/ic_account_outline"
+                        android:src="@drawable/ic_calendar_outline"
                         app:tint="@color/grey_600"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Profil"
+                        android:text="@string/transaction"
                         android:textSize="10dp"
                         android:textColor="@color/grey_600"/>
                 </LinearLayout>
@@ -90,12 +90,12 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/ic_calendar_outline"
+                        android:src="@drawable/ic_bell_outline"
                         app:tint="@color/grey_600"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Calendrier"
+                        android:text="@string/project"
                         android:textSize="10dp"
                         android:textColor="@color/grey_600"/>
                 </LinearLayout>
@@ -107,12 +107,12 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/ic_bell_outline"
+                        android:src="@drawable/ic_account_outline"
                         app:tint="@color/grey_600"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Alert"
+                        android:text="Profil"
                         android:textSize="10dp"
                         android:textColor="@color/grey_600"/>
                 </LinearLayout>

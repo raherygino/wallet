@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity
     public FloatingActionButton btn_fab_add;
     private Utils utils;
     private DatabaseHelper database;
-    public BottomNav bottomNav;
     public MainActivityViewModel viewModel;
     private static final int READ_REQUEST_CODE = 42;
 
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity
         this.initView();
         this.configView();
         this.viewModel = new MainActivityViewModel(MainActivity.this);
-        this.bottomNav = new BottomNav(this);
     }
 
     private void init() {

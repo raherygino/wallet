@@ -24,11 +24,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".view.activities.HomeActivity"
+            android:exported="false"/>
+        <activity
             android:name=".view.activities.AdminActivity"
             android:exported="false" />
         <activity
             android:name=".view.activities.MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -37,6 +37,5 @@
 
         </LinearLayout>
     </ScrollView>
-    <include layout="@layout/activity_main_nav_bar_bottom"/>
 
 </RelativeLayout>

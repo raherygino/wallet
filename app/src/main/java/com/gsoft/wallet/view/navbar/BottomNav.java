@@ -1,52 +1,90 @@
 package com.gsoft.wallet.view.navbar;
-import static com.gsoft.wallet.utils.Utils.LIGHT;
 
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TableLayout;
 import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.gsoft.wallet.utils.NavIcon;
+import com.gsoft.wallet.view.activities.HomeActivity;
 import com.gsoft.wallet.R;
+import com.gsoft.wallet.model.models.NavItem;
 import com.gsoft.wallet.utils.Utils;
-import com.gsoft.wallet.view.activities.MainActivity;
-import com.gsoft.wallet.viewmodel.NavBarViewModel;
+import java.util.ArrayList;
 
 public class BottomNav
 {
-    public int CHILD_COUNT = 0;
-    public TextView[] ITEMS;
-    public MainActivity mActivity;
+    public HomeActivity mActivity;
+    private final TableLayout tableLayout;
+    private final ArrayList<NavItem> listItems;
 
+    private final Utils utils;
+    private String[] listIconItemsActive;
+    private String[] listIconItems;
     public BottomNav(Context context) {
-        
-        this.mActivity = (MainActivity) context;
-        Utils utils = new Utils(context);
-        NavBarViewModel viewModel = new NavBarViewModel(this);
-        
-        TableLayout navTableLayout = mActivity.findViewById(R.id.nav_table_layout);
-        TableRow tableRow = (TableRow) navTableLayout.getChildAt(0);
-        
-        CHILD_COUNT = tableRow.getChildCount();
-        ITEMS = new TextView[CHILD_COUNT];
-        
-        for (int i = 0; i < CHILD_COUNT; i++) {
-            if (i != 2) {
-                LinearLayout linearLay = (LinearLayout) tableRow.getChildAt(i);
-                linearLay.setId(i+1);
-                linearLay.setOnClickListener(viewModel.onClick);
-                ITEMS[i] = (TextView) linearLay.getChildAt(1);
-                utils.setFont(ITEMS[i], LIGHT);
-                if( i == 0) {
-                    viewModel.onClick.setItem(linearLay, R.color.blue_600, "ic_home");
-                }
-            }
-            else {
-                TextView txt = new TextView(mActivity);
-                txt.setText(mActivity.getString(R.string.empty));
-                ITEMS[i] = txt;
-            }
+        this.initIcon();
+        this.mActivity = (HomeActivity) context;
+        this.tableLayout = mActivity.findViewById(R.id.nav_table_layout);
+        this.listItems = getAllItems();
+        this.utils = new Utils(context);
+    }
+
+    private void initIcon() {
+        listIconItemsActive = new String[NavIcon.values().length];
+        listIconItems = new String[NavIcon.values().length];
+        for (int i = 0 ; i < NavIcon.values().length; i++) {
+            listIconItemsActive[i] = NavIcon.values()[i].active;
+            listIconItems[i] = NavIcon.values()[i].inactive;
         }
     }
-    
+
+    public ArrayList<NavItem> getAllItems() {
+
+        ArrayList<NavItem> allItems = new ArrayList<>();
+        TableRow tableRow = (TableRow) tableLayout.getChildAt(0);
+        for (int i = 0; i < tableRow.getChildCount(); i++) {
+            int index = i;
+            if (i != 2 ) {
+                if (i > 2) {
+                    index = i-1;
+                }
+                LinearLayout linearLayout = (LinearLayout) tableRow.getChildAt(i);
+                allItems.add(new NavItem(linearLayout, listIconItems[index]));
+            }
+        }
+        return allItems;
+    }
+
+    public void setItemActivate(int position) {
+        for (NavItem navItem : listItems) {
+            setActiveColor(navItem, R.color.grey_600, navItem.getIcon());
+        }
+        setActiveColor(listItems.get(position), R.color.blue_600, listIconItemsActive[position]);
+    }
+
+    private void setActiveColor(NavItem navItem, int color, String icon) {
+        ImageView itemIcon = navItem.getImageView();
+        TextView item = navItem.getTitleTextView();
+        itemIcon.setImageDrawable(utils.getDrawable(icon));
+        utils.setColor(item, color);
+        utils.setColor(itemIcon, color);
+    }
+
+    public void setupWithViewPager(ViewPager viewPager) {
+        setItemActivate(0);
+        for (int i = 0 ; i < getAllItems().size(); i++) {
+            final int index = i;
+            NavItem item = getAllItems().get(i);
+            item.getView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    viewPager.setCurrentItem(index, true);
+                }
+            });
+        }
+    }
 }
