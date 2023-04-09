@@ -306,6 +306,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list_project;
     }
 
+    public ArrayList<Project> listProjectByStat(boolean isCompleted) {
+        Cursor cursor = getAllProject();
+        ArrayList<Project> list_project = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Project project = getProjectFromCursor(cursor);
+            if(project.isCompleted() == isCompleted) {
+                list_project.add(getProjectFromCursor(cursor));
+            }
+        }
+        return list_project;
+    }
+
     private Project getProjectFromCursor(Cursor cursor) {
         int id = cursor.getInt(0);
         String title = cursor.getString(1);

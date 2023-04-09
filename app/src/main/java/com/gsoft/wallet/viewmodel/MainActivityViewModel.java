@@ -52,7 +52,7 @@ public class MainActivityViewModel
         RecyclerView recyclerView = mActivity.findViewById(R.id.recyclerview_project);
         recyclerView.setHasFixedSize(true);
         
-        listProject = database.listProject();
+        listProject = database.listProjectByStat(false);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager); 
         adapterRecycler = new AdapterRecyclerProject(mActivity, listProject);
@@ -86,7 +86,7 @@ public class MainActivityViewModel
 
     public void refreshProject() {
         listProject.clear();
-        listProject.addAll(database.listProject());
+        listProject.addAll(database.listProjectByStat(false));
         adapterRecycler.notifyDataSetChanged();
     }
     

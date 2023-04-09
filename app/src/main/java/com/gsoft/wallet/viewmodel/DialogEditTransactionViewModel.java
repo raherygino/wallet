@@ -140,7 +140,7 @@ public class DialogEditTransactionViewModel
                 }
                 if (dialog.editIsDepot.getText().toString().equals(utils.getString(R.string.yes)) && type.equals(utils.getString(R.string.out))) {
                     int rest = database.getProjectById(dialog.idProject).getRest();
-                    if (rest > Integer.parseInt(amount)) {
+                    if (rest >= Integer.parseInt(amount)) {
                         database.insertDeposit(new Deposit(0, dialog.idProject, database.getMaxIdTransaction()));
                         dialog.dismiss();
                     } else {
