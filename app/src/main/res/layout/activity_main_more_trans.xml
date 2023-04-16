@@ -6,26 +6,4 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="3dp">
-    <TextView
-        android:id="@+id/home_title_activity"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_centerVertical="true"
-        android:textSize="14dp"
-        android:textColor="@color/grey_600"
-        android:text="Activity recent"/>
-    <Button
-        android:id="@+id/btn_all_activities"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:textSize="14dp"
-        android:padding="0dp"
-        android:layout_centerVertical="true"
-        android:background="@color/transparent"
-        android:drawableEnd="@drawable/exo_ic_chevron_right"
-        android:drawableTint="@color/grey_600"
-        android:textColor="@color/grey_600"
-        android:text="All Activity"
-        android:textAllCaps="false"/>
 </RelativeLayout>

@@ -13,7 +13,7 @@ import com.gsoft.wallet.viewmodel.DialogEditProjectViewModel;
 
 public class EditProjectDialog extends SweetDialog{
 
-    public EditText editTitleProject, editTypeProject, editPriorityProject, editDepositProject, editTargetProject;
+    public EditText editTitleProject, editTypeProject, editPriorityProject, editTargetProject;
     public Button buttonOk;
     public Context context;
     private final Activity activity;
@@ -32,7 +32,6 @@ public class EditProjectDialog extends SweetDialog{
         editTitleProject = (EditText) setView(R.id.edt_title_project, null, LIGHT);
         editTypeProject = (EditText) setView(R.id.edt_type_project, null, LIGHT);
         editPriorityProject = (EditText) setView(R.id.edt_priority_project, null, LIGHT);
-        editDepositProject = (EditText) setView(R.id.edt_diposit_project, null, LIGHT);
         editTargetProject = (EditText) setView(R.id.edt_target_project, null, LIGHT);
         buttonOk = (Button) setView(R.id.dialog_np_btn_ok, activity.getString(R.string.ok), LIGHT);
     }

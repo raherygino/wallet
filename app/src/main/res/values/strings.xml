@@ -15,17 +15,21 @@
     <string name="message_amount_invalid">Montant invalide</string>
     <string name="message_title_invalid">Titre invalide</string>
     <string name="message_rest_under_amount">Montant supérieur au montant reste du projet</string>
+    <string name="message_target_under_deposit">Budget inférieur au dépot</string>
+    <string name="message_no_project">Aucun projet</string>
 
     <!-- Title -->
     <string name="current_balance">Balance</string>
     <string name="email">Email</string>
+    <string name="empty">Vide</string>
     <string name="first_name">Prénom</string>
     <string name="last_name">Nom</string>
+    <string name="more">Plus</string>
     <string name="project">Projet</string>
+    <string name="project_in_progress">Projet en cours</string>
     <string name="total_income">Total revenu</string>
     <string name="total_outcome">Total dépense</string>
     <string name="transaction">Transaction</string>
-    <string name="empty">Vide</string>
 
     <!-- Menu -->
     <string name="high">Elevée</string>

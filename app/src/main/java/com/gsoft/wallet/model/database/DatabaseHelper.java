@@ -340,8 +340,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteProject(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String idTransaction = String.valueOf(idTransactionByProject(id));
-        db.delete(TABLE_TRANSACTION, COLUMN_ID+" = ?", new String[]{idTransaction});
+        for (int idTransaction : getIdTransactionByProject(id)) {
+            db.delete(TABLE_TRANSACTION, COLUMN_ID+" = ?", new String[]{String.valueOf(idTransaction) });
+        }
         db.delete(TABLE_DEPOSIT, COLUMN_ID_PROJECT+" = ?", new String[]{String.valueOf(id)});
         db.delete(TABLE_PROJECT, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
     }

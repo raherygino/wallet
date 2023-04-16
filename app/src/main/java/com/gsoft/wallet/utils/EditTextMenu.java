@@ -39,11 +39,13 @@ public class EditTextMenu {
                         int countProject = listProject.size();
                         if (countProject > 0) {
                             layoutProject.setVisibility(View.VISIBLE);
+                            layoutTitle.setVisibility(View.GONE);
                         } else {
-                            new Utils(context).toast("Aucun projet");
+                            new Utils(context).toast(((Activity)context).getString(R.string.message_no_project));
+                            layoutProject.setVisibility(View.GONE);
+                            layoutTitle.setVisibility(View.VISIBLE);
                             edt.setText(activity.getString(R.string.no));
                         }
-                        layoutTitle.setVisibility(View.GONE);
                         break;
 
                     case R.id.no:

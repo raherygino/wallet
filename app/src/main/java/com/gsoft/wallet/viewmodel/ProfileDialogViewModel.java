@@ -1,32 +1,22 @@
 package com.gsoft.wallet.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
-import android.widget.EditText;
-
-import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.User;
-import com.gsoft.wallet.utils.Utils;
-import com.gsoft.wallet.view.activities.MainActivity;
+import com.gsoft.wallet.view.activities.HomeActivity;
 import com.gsoft.wallet.view.dialog.ProfileDialog;
-
-import java.util.Objects;
 
 public class ProfileDialogViewModel {
 
     private ProfileDialog profileDialog;
     private Activity activity;
-    private Utils utils;
 
     public ProfileDialogViewModel(ProfileDialog profileDialog) {
         this.profileDialog = profileDialog;
         this.activity = (Activity) profileDialog.context;
-        this.utils = profileDialog.utils;
         this.setActionView();
         this.onCancelListener(activity);
     }
@@ -50,7 +40,7 @@ public class ProfileDialogViewModel {
                 DatabaseHelper database = new DatabaseHelper(activity);
                 database.insertUser(user);
                 profileDialog.dismiss();
-                activity.startActivity(new Intent(activity, MainActivity.class));
+                activity.startActivity(new Intent(activity, HomeActivity.class));
                 activity.finish();
             } else {
                 if (!lastNameIsValidate) {

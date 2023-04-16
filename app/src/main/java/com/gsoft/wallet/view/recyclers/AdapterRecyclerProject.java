@@ -27,6 +27,7 @@ import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
+import com.gsoft.wallet.view.activities.HomeActivity;
 import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
 import com.gsoft.wallet.view.dialog.EditProjectDialog;
@@ -125,19 +126,14 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
                     if (id == R.id.delete_project) {
                         ConfirmDialog dialog = new ConfirmDialog(context, "Supprimer","Voulez vous supprimer vraimenent?");
                         dialog.show();
-                        dialog.buttonCancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog.dismiss();
-                            }
-                        });
+                        dialog.onCancel(dialog.buttonCancel.getId());
                         dialog.buttonOk.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 DatabaseHelper db = new DatabaseHelper(context);
                                 db.deleteProject(id_project);
-                                MainActivity mainActivity = (MainActivity) context;
-                                mainActivity.viewModel.refreshProject();
+                                HomeActivity homeActivity = (HomeActivity) context;
+                                homeActivity.refreshFragement();
                                 dialog.dismiss();
                             }
                         });

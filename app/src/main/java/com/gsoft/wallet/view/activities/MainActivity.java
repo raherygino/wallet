@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity
 {
     public TextView home_title, home_username, home_title_balance, home_balance,  home_title_activity, home_title_project, home_income, home_outcome;
     public ImageView home_btn_settings;
-    public Button home_btn_all_activities, home_btn_all_pro;
     public FloatingActionButton btn_fab_add;
     private Utils utils;
     private DatabaseHelper database;
@@ -56,8 +55,6 @@ public class MainActivity extends AppCompatActivity
     private void initView() {
         btn_fab_add = findViewById(R.id.fab_add);
         home_balance = findViewById(R.id.home_balance);
-        home_btn_all_activities = findViewById(R.id.btn_all_activities);
-        home_btn_all_pro = findViewById(R.id.btn_all_projects);
         home_btn_settings = findViewById(R.id.home_btn_settings);
         home_title = findViewById(R.id.home_title);
         home_title_activity = findViewById(R.id.home_title_activity);
@@ -72,8 +69,6 @@ public class MainActivity extends AppCompatActivity
         utils.setFont(home_income, "SemiBold");
         utils.setFont(home_outcome, "SemiBold");
         utils.setFont(home_balance, "SemiBold");
-        utils.setFont(home_btn_all_activities, "Light");
-        utils.setFont(home_btn_all_pro, "Light");
         utils.setFont(home_title, "Light");
         utils.setFont(home_title_activity, "Light");
         utils.setFont(home_title_balance, "Light");

@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.widget.ImageView;
 import androidx.core.content.ContextCompat;
 import com.gsoft.wallet.R;
+import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.utils.Utils;
+import com.gsoft.wallet.view.activities.HomeActivity;
 import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
 import com.gsoft.wallet.view.dialog.EditTransactionDialog;
@@ -113,14 +115,13 @@ public class AdapterRecyclerTransaction extends RecyclerView.Adapter<AdapterRecy
             confirm_dial.buttonCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View p) {
-                   if (context instanceof MainActivity) {
-                       MainActivity mAct = (MainActivity)context;
-                       mAct.viewModel.delete(transaction.get(position).getId());
-                       mAct.viewModel.refresh();
+                   if (context instanceof HomeActivity) {
+                       HomeActivity homeActivity = (HomeActivity)context;
+                       int transactionId = transaction.get(position).getId();
+                       new DatabaseHelper(context).deleteTransaction(transactionId);
+                       homeActivity.refreshFragement();
                    }
-                    
                    confirm_dial.dismiss();
-                   remove(position);
                 }
             });
             confirm_dial.buttonCancel.setText(del);
