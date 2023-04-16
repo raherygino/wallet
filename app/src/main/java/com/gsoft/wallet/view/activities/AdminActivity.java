@@ -1,20 +1,15 @@
 package com.gsoft.wallet.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
-import com.gsoft.wallet.model.models.Deposit;
 import com.gsoft.wallet.utils.Utils;
-
-import java.util.ArrayList;
 
 public class AdminActivity extends AppCompatActivity {
     Utils utils = new Utils(this);

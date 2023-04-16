@@ -1,14 +1,9 @@
 package com.gsoft.wallet.view.dialog;
 
 import static com.gsoft.wallet.utils.Utils.LIGHT;
-
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.viewmodel.ProfileDialogViewModel;

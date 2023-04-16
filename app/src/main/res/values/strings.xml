@@ -12,6 +12,9 @@
     <string name="yes">Oui</string>
     <string name="validate">Valider</string>
 
+    <!-- Confirmation -->
+    <string name="confirmation_delete">Voulez vous supprimer vraimenent?</string>
+
     <!-- Message -->
     <string name="message_amount_invalid">Montant invalide</string>
     <string name="message_title_invalid">Titre invalide</string>
@@ -29,6 +32,7 @@
     <string name="description">Description</string>
     <string name="email">Email</string>
     <string name="empty">Vide</string>
+    <string name="finished">Terminé</string>
     <string name="first_name">Prénom</string>
     <string name="hello">Bonjour</string>
     <string name="home">Accueil</string>

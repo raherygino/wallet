@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.view.dialog.ProfileDialog;

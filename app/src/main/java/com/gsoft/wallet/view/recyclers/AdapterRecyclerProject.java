@@ -3,10 +3,8 @@ package com.gsoft.wallet.view.recyclers;
 import static com.gsoft.wallet.utils.Utils.LIGHT;
 import static com.gsoft.wallet.utils.Utils.REGULAR;
 import static com.gsoft.wallet.utils.Utils.SEMI_BOLD;
-
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -15,13 +13,11 @@ import androidx.annotation.NonNull;
 import android.content.Context;
 import android.view.LayoutInflater;
 import java.util.ArrayList;
-
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ImageView;
-
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Project;
@@ -33,8 +29,8 @@ import com.gsoft.wallet.view.dialog.EditProjectDialog;
 public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecyclerProject.MyHolder> 
 {
     private final Context context;
-    private ArrayList<Project> listProject;
-    private Utils utils;
+    private final ArrayList<Project> listProject;
+    private final Utils utils;
 
     public AdapterRecyclerProject(Context ctx,ArrayList<Project> aList) {
         this.context = ctx;
@@ -42,6 +38,7 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
         this.utils = new Utils(ctx);
     }
 
+    @NonNull
     @Override
     public MyHolder onCreateViewHolder(ViewGroup p1, int p2)
     {
@@ -67,7 +64,7 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
         int percent = (listProject.get(i).getDeposit() * 100)/listProject.get(i).getTarget();
         myHolder.progressBar.setProgress(percent);
         if (listProject.get(i).isCompleted()) {
-            myHolder.stats.setText("Terminé");
+            myHolder.stats.setText(utils.getString(R.string.finished));
             myHolder.stats.setBackgroundResource(R.drawable.back_badge_success);
             myHolder.stats.setTextColor(ContextCompat.getColor(context, R.color.green_400));
         }
@@ -122,7 +119,7 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
                 {
                     int id = item.getItemId();
                     if (id == R.id.delete_project) {
-                        ConfirmDialog dialog = new ConfirmDialog(context, "Supprimer","Voulez vous supprimer vraimenent?");
+                        ConfirmDialog dialog = new ConfirmDialog(context, utils.getString(R.string.delete),utils.getString(R.string.confirmation_delete));
                         dialog.show();
                         dialog.onCancel(dialog.buttonCancel.getId());
                         dialog.buttonOk.setOnClickListener(new View.OnClickListener() {

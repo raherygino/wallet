@@ -40,7 +40,7 @@ public class TabHome extends Fragment {
 
     private Utils utils;
     private DatabaseHelper database;
-    private Context context;
+    private final Context context;
     ArrayList<Transaction> listTransaction;
     ArrayList<Project> listProject;
     RecyclerView recyclerViewTransaction;

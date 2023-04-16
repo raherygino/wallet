@@ -8,7 +8,6 @@ import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.viewpager.widget.ViewPager;
-
 import com.gsoft.wallet.utils.NavIcon;
 import com.gsoft.wallet.view.activities.HomeActivity;
 import com.gsoft.wallet.R;

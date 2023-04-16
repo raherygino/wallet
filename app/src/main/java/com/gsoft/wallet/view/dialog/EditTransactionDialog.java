@@ -1,7 +1,9 @@
 package com.gsoft.wallet.view.dialog;
+
+import static com.gsoft.wallet.utils.Utils.REGULAR;
+
 import android.app.Dialog;
 import android.content.Context;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -9,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-
 import com.google.android.material.textfield.TextInputLayout;
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
@@ -17,14 +18,12 @@ import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.viewmodel.DialogEditTransactionViewModel;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class EditTransactionDialog extends SweetDialog
 {
     public Dialog dialog;
-    public String title, amount, type;
+    public String title, type;
     public EditText editTitle, editAmount, editType, editIsDepot;
     public TextInputLayout layoutTitle;
     public Spinner editProject;
@@ -55,14 +54,14 @@ public class EditTransactionDialog extends SweetDialog
     }
     
     private void initView() {
-        editTitle = (EditText) super.setView(R.id.edt_title, "","Regular");
-        editType = (EditText) super.setView(R.id.edt_type, "","Regular");
-        editAmount = (EditText) super.setView(R.id.edt_amount, "", "Regular");
-        editProject = (Spinner) super.setView(R.id.edt_projet, "", "Regular");
-        editIsDepot = (EditText) super.setView(R.id.edt_is_depot, "", "Regular");
+        editTitle = (EditText) super.setView(R.id.edt_title, "",REGULAR);
+        editType = (EditText) super.setView(R.id.edt_type, "",REGULAR);
+        editAmount = (EditText) super.setView(R.id.edt_amount, "", REGULAR);
+        editProject = (Spinner) super.setView(R.id.edt_projet, "", REGULAR);
+        editIsDepot = (EditText) super.setView(R.id.edt_is_depot, "", REGULAR);
         layoutProject = (RelativeLayout) super.findViewById(R.id.layout_project);
         layoutTitle = (TextInputLayout) super.findViewById(R.id.layout_title);
-        buttonOk = (Button) super.setView(R.id.dialog_nb_btn_ok, "Ok", "Regular");
+        buttonOk = (Button) super.setView(R.id.dialog_nb_btn_ok, utils.getString(R.string.ok), REGULAR);
     }
 
     private void setConfigSpinner() {
