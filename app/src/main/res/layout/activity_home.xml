@@ -7,16 +7,6 @@
     android:background="@color/grey_200"
     tools:context=".view.activities.HomeActivity">
 
-    <!--com.google.android.material.tabs.TabLayout
-        android:id="@+id/TabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="#41B7FF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" /-->
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="0dp"
