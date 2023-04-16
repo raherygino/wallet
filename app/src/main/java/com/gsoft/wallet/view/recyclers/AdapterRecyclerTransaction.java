@@ -18,7 +18,6 @@ import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.HomeActivity;
-import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
 import com.gsoft.wallet.view.dialog.EditTransactionDialog;
 import java.util.ArrayList;

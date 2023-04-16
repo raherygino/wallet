@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -21,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.model.models.Project;
@@ -30,14 +28,8 @@ import com.gsoft.wallet.model.models.User;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.AdminActivity;
 import com.gsoft.wallet.view.activities.HomeActivity;
-import com.gsoft.wallet.view.activities.MainActivity;
-import com.gsoft.wallet.view.dialog.MenuDialog;
 import com.gsoft.wallet.view.recyclers.AdapterRecyclerProject;
 import com.gsoft.wallet.view.recyclers.AdapterRecyclerTransaction;
-import com.gsoft.wallet.viewmodel.MainActivityViewModel;
-import com.gsoft.wallet.viewmodel.TabHomeViewModel;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

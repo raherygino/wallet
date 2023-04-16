@@ -10,7 +10,6 @@ import com.gsoft.wallet.model.models.Project;
 import com.gsoft.wallet.utils.EditTextMenu;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.HomeActivity;
-import com.gsoft.wallet.view.activities.MainActivity;
 import com.gsoft.wallet.view.dialog.EditProjectDialog;
 import com.gsoft.wallet.R;
 
