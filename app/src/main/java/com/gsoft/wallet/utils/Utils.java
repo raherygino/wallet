@@ -129,18 +129,31 @@ public class Utils{
         }
         return res.toString();
     }
+
+    public String formatNumber(int number) {
+        String value = String.valueOf(number);
+        if (number < 10) {
+            value = "0"+number;
+        }
+        return value;
+    }
     
     public String DateSQLFormatNow() {
         Date currentTime = Calendar.getInstance().getTime();
         String s_currentTime = currentTime.toString();
         String y = s_currentTime.substring(s_currentTime.length()-4, s_currentTime.length());
+        String month = formatNumber(currentTime.getMonth()+1);
+        String date = formatNumber(currentTime.getDate());
+        String hours = formatNumber(currentTime.getHours());
+        String minutes = formatNumber(currentTime.getMinutes());
+        String seconds = formatNumber(currentTime.getSeconds());
         String dd = "";
         dd += y+"-";
-        dd += currentTime.getMonth()+1+"-";
-        dd += currentTime.getDate()+" ";
-        dd += currentTime.getHours()+":";
-        dd += currentTime.getMinutes()+":";
-        dd += currentTime.getSeconds();
+        dd += month+"-";
+        dd += date+" ";
+        dd += hours+":";
+        dd += minutes+":";
+        dd += seconds;
         return dd;
     }
 

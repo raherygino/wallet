@@ -2,9 +2,9 @@
 
     <item
         android:id="@+id/income"
-        android:title="Entrée"/>
+        android:title="@string/in"/>
     <item
         android:id="@+id/outcome"
-        android:title="Sortie"/>
+        android:title="@string/out"/>
 
 </menu>

@@ -13,4 +13,8 @@
         android:id="@+id/admin"
         android:title="Admin" />
 
+    <item
+        android:id="@+id/clear"
+        android:title="Reinitialiser" />
+
 </menu>

@@ -13,7 +13,8 @@
     <string name="validate">Valider</string>
 
     <!-- Confirmation -->
-    <string name="confirmation_delete">Voulez vous supprimer vraimenent?</string>
+    <string name="confirmation_delete">Voulez vous supprimer vraiment ?</string>
+    <string name="confirmation_wipe">Voulez vous réinitialiser vraiment ?</string>
 
     <!-- Message -->
     <string name="message_amount_invalid">Montant invalide</string>
@@ -55,6 +56,8 @@
     <string name="transaction">Transaction</string>
     <string name="type">Type</string>
     <string name="username">Utilisateur</string>
+    <string name="wipe">Réinitialiser</string>
+    <string name="wipe_data">Réinitialisation</string>
 
     <!-- Menu -->
     <string name="high">Elevée</string>

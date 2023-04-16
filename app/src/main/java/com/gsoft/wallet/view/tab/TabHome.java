@@ -3,9 +3,12 @@ package com.gsoft.wallet.view.tab;
 import static com.gsoft.wallet.utils.Utils.LIGHT;
 import static com.gsoft.wallet.utils.Utils.SEMI_BOLD;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,6 +19,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +33,8 @@ import com.gsoft.wallet.model.models.User;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.activities.AdminActivity;
 import com.gsoft.wallet.view.activities.HomeActivity;
+import com.gsoft.wallet.view.activities.SplashActivity;
+import com.gsoft.wallet.view.dialog.ConfirmDialog;
 import com.gsoft.wallet.view.recyclers.AdapterRecyclerProject;
 import com.gsoft.wallet.view.recyclers.AdapterRecyclerTransaction;
 
@@ -169,14 +176,11 @@ public class TabHome extends Fragment {
             utils.btnClick(p1);
             int id = p1.getId();
 
-            switch(id) {
-
-                case R.id.home_btn_settings:
-                    PopupMenu popupMenu = new PopupMenu(context, p1);
-                    popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-                    popupMenu.setOnMenuItemClickListener(new onItemClick());
-                    popupMenu.show();
-                    break;
+            if (id == R.id.home_btn_settings) {
+                PopupMenu popupMenu = new PopupMenu(context, p1);
+                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new onItemClick());
+                popupMenu.show();
             }
 
         }
@@ -192,11 +196,33 @@ public class TabHome extends Fragment {
                 case R.id.import_data:
                     homeActivity.showFileChooser();
                     break;
+
                 case R.id.export_data:
-                    database.saveFile();
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        database.saveFile();
+                    } else {
+                        ActivityCompat.requestPermissions(((Activity)context), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, getTargetRequestCode());
+                    }
                     break;
+
                 case R.id.admin:
                     homeActivity.startActivity(new Intent(homeActivity, AdminActivity.class));
+                    break;
+
+                case R.id.clear:
+                    ConfirmDialog dialog = new ConfirmDialog(context, utils.getString(R.string.wipe_data), utils.getString(R.string.confirmation_wipe));
+                    dialog.show();
+                    dialog.onCancel(dialog.buttonCancel.getId());
+
+                    dialog.buttonOk.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            database.wipeData();
+                            Activity activity = (Activity) context;
+                            startActivity(new Intent(activity, SplashActivity.class));
+                            activity.finish();
+                        }
+                    });
                     break;
             }
             return true;

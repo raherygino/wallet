@@ -40,11 +40,11 @@ public class EditTransactionDialog extends SweetDialog
     public EditTransactionDialog(Context ctx) {
         super(ctx, R.layout.dialog_new_balance_layout);
         this.context = ctx;
+        this.utils = new Utils(context);
         this.database = new DatabaseHelper(context);
         this.initView();
         this.setConfigSpinner();
         this.viewModel = new DialogEditTransactionViewModel(this);
-        this.utils = new Utils(context);
         this.idProject = 0;
         super.onCancel(R.id.dialog_nb_btn_cancel);
     }

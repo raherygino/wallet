@@ -104,7 +104,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        dropAllTable(db);
+        onCreate(db);
+    }
 
+    public void dropAllTable(SQLiteDatabase db) {
         String SQL_DELETE_TRANS = "DROP TABLE IF EXISTS " + TABLE_TRANSACTION;
         String SQL_DELETE_PROJECT = "DROP TABLE IF EXISTS " + TABLE_PROJECT;
         String SQL_DELETE_DEPOSIT = "DROP TABLE IF EXISTS " + TABLE_DEPOSIT;
@@ -114,7 +118,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_PROJECT);
         db.execSQL(SQL_DELETE_DEPOSIT);
         db.execSQL(SQL_DELETE_USER);
-        onCreate(db);
+
+    }
+    public void wipeData() {
+        SQLiteDatabase database = this.getWritableDatabase();
+        dropAllTable(database);
+        onCreate(database);
     }
     
     private ContentValues valuesTransaction(Transaction transaction, boolean isDate) {
@@ -231,14 +240,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String date = data.getString("date");
                 list.add(new Transaction(title, amount, type, date));
             }
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return list;
     }
     
     public void saveFile() {
-        String fileName = "data.json";
+        String fileName = "data_new.json";
         String fileContents = this.exportJson();
         File root = Environment.getExternalStorageDirectory();
         File dir = new File(root.getAbsolutePath() + "/myBudget");
