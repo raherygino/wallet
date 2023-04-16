@@ -2,6 +2,7 @@
     <string name="app_name">Wallet</string>
 
     <!-- Button -->
+    <string name="add">Add</string>
     <string name="cancel">Annuler</string>
     <string name="delete">Supprimer</string>
     <string name="update">Mettre à jour</string>
@@ -19,17 +20,37 @@
     <string name="message_no_project">Aucun projet</string>
 
     <!-- Title -->
+    <string name="amount">Montant</string>
+    <string name="ariary">Ar</string>
+    <string name="budget">Budget</string>
     <string name="current_balance">Balance</string>
+    <string name="date">Date</string>
+    <string name="deposit">Dépot</string>
+    <string name="description">Description</string>
     <string name="email">Email</string>
     <string name="empty">Vide</string>
     <string name="first_name">Prénom</string>
+    <string name="hello">Bonjour</string>
+    <string name="home">Accueil</string>
+    <string name="in_progess">En cours</string>
     <string name="last_name">Nom</string>
     <string name="more">Plus</string>
+    <string name="new_action">Nouveau</string>
+    <string name="new_project">Nouveau projet</string>
+    <string name="new_transaction">Nouveau transaction</string>
+    <string name="placeholder_amount">1.000.000</string>
+    <string name="priority">Priorité</string>
+    <string name="profile">Profil</string>
     <string name="project">Projet</string>
     <string name="project_in_progress">Projet en cours</string>
+    <string name="recently_transaction">Transaction récent</string>
+    <string name="target">Cible</string>
+    <string name="title">Titre</string>
     <string name="total_income">Total revenu</string>
     <string name="total_outcome">Total dépense</string>
     <string name="transaction">Transaction</string>
+    <string name="type">Type</string>
+    <string name="username">Utilisateur</string>
 
     <!-- Menu -->
     <string name="high">Elevée</string>

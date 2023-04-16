@@ -10,13 +10,13 @@
         android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:text="hello wolrd"/>
+        android:textSize="12sp"
+        android:text="@string/title"/>
     <TextView
         android:id="@+id/dialog_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description"
+        android:text="@string/description"
         android:textSize="12dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -33,14 +33,14 @@
             android:textColor="@color/blue_500"
             android:textSize="13dp"
             android:textAllCaps="false"
-            android:text="Annuler"/>
+            android:text="@string/cancel"/>
         <Button
             android:id="@+id/dialog_btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:textSize="13dp"
             style="@style/ButtonPrimary"
-            android:text="Ok"
+            android:text="@string/ok"
             android:textAllCaps="false"
             android:textColor="@color/white"/>
     </LinearLayout>

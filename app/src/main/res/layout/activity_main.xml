@@ -21,14 +21,12 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-            <include layout="@layout/activity_main_more_project"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_project"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="-7dp"/>
 
-            <include layout="@layout/activity_main_more_trans"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_transaction_home"
                 android:layout_width="match_parent"
