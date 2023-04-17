@@ -12,10 +12,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
+import com.gsoft.wallet.model.models.Transaction;
 import com.gsoft.wallet.utils.Utils;
 import com.gsoft.wallet.view.dialog.DatePickerDialog;
+import com.gsoft.wallet.view.recyclers.AdapterRecyclerTransaction;
+
+import java.util.ArrayList;
 
 public class TabTransaction extends Fragment {
     private final DatabaseHelper database;
@@ -46,6 +53,15 @@ public class TabTransaction extends Fragment {
 
         startDate.setOnClickListener(new DatePickerDialog(context));
         endDate.setOnClickListener(new DatePickerDialog(context));
+
+
+        RecyclerView recyclerViewTransaction = view.findViewById(R.id.recyclerview_transaction);
+        ArrayList<Transaction> listTransaction =  database.listTransaction();
+        recyclerViewTransaction.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManagerTransaction = new LinearLayoutManager(this.context);
+        recyclerViewTransaction.setLayoutManager(layoutManagerTransaction);
+        AdapterRecyclerTransaction adapterRecyclerTransaction = new AdapterRecyclerTransaction(this.context, listTransaction, recyclerViewTransaction);
+        recyclerViewTransaction.setAdapter(adapterRecyclerTransaction);
 
         return view;
     }
