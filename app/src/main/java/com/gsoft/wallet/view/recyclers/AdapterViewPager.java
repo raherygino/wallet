@@ -26,7 +26,7 @@ public class AdapterViewPager extends FragmentStatePagerAdapter {
             case 0:
                 return new TabHome(context);
             case 1:
-                return new TabTransaction();
+                return new TabTransaction(context);
             case 2:
                 return new TabProject();
             case 3:

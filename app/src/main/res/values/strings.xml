@@ -68,5 +68,7 @@
     <string name="low">Faible</string>
     <string name="middle">Moyenne</string>
     <string name="out">Sortie</string>
+    <string name="search">Recherche</string>
+    <string name="start_date">Date debut</string>
 
 </resources>
