@@ -21,6 +21,7 @@ import com.gsoft.wallet.view.activities.HomeActivity;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
 import com.gsoft.wallet.view.dialog.EditTransactionDialog;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AdapterRecyclerTransaction extends RecyclerView.Adapter<AdapterRecyclerTransaction.MyHolder> {
     
@@ -55,8 +56,7 @@ public class AdapterRecyclerTransaction extends RecyclerView.Adapter<AdapterRecy
         
         Transaction item = transaction.get(i);
         myHolder.title.setText(item.getTitle());
-        myHolder.date.setText(utils.formatDate(item.getFormatedDate())+" "+item.getTime());
-        
+        myHolder.date.setText(item.getDateFomatted().toLocaleString());
         if (transaction.get(i).getType().contains(utils.getString(R.string.out))) {
             myHolder.image.setImageDrawable(utils.getDrawable("ic_orbit_money_transfer_out"));
             setColorItem(myHolder, R.color.red_400);

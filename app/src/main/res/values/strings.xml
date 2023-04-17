@@ -18,6 +18,7 @@
 
     <!-- Message -->
     <string name="message_amount_invalid">Montant invalide</string>
+    <string name="message_filename_invalid">Nom du fichier invalide</string>
     <string name="message_title_invalid">Titre invalide</string>
     <string name="message_rest_under_amount">Montant supérieur au montant reste du projet</string>
     <string name="message_target_under_deposit">Budget inférieur au dépot</string>
@@ -29,10 +30,12 @@
     <string name="budget">Budget</string>
     <string name="current_balance">Balance</string>
     <string name="date">Date</string>
+    <string name="default_filename">exported_data</string>
     <string name="deposit">Dépot</string>
     <string name="description">Description</string>
     <string name="email">Email</string>
     <string name="empty">Vide</string>
+    <string name="filename">Nom du fichier</string>
     <string name="finished">Terminé</string>
     <string name="first_name">Prénom</string>
     <string name="hello">Bonjour</string>

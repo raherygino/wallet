@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 import java.io.File;
 import android.os.Environment;
@@ -19,6 +20,8 @@ import com.gsoft.wallet.utils.Utils;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -49,8 +52,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LAST_NAME = "lastname";
     public static final String COLUMN_FIRST_NAME = "firstname";
     public static final String COLUMN_EMAIL = "email";
-    private Utils utils;
-    private Context context;
+    private final Utils utils;
+    private final Context context;
+    private static final String[] allTable = new String[]{TABLE_TRANSACTION, TABLE_PROJECT, TABLE_DEPOSIT, TABLE_USER};
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -109,16 +113,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void dropAllTable(SQLiteDatabase db) {
-        String SQL_DELETE_TRANS = "DROP TABLE IF EXISTS " + TABLE_TRANSACTION;
-        String SQL_DELETE_PROJECT = "DROP TABLE IF EXISTS " + TABLE_PROJECT;
-        String SQL_DELETE_DEPOSIT = "DROP TABLE IF EXISTS " + TABLE_DEPOSIT;
-        String SQL_DELETE_USER = "DROP TABLE IF EXISTS " + TABLE_USER;
-
-        db.execSQL(SQL_DELETE_TRANS);
-        db.execSQL(SQL_DELETE_PROJECT);
-        db.execSQL(SQL_DELETE_DEPOSIT);
-        db.execSQL(SQL_DELETE_USER);
-
+        for (String table: allTable) {
+            String SQL_DELETE = "DROP TABLE IF EXISTS " + table;
+            db.execSQL(SQL_DELETE);
+        }
     }
     public void wipeData() {
         SQLiteDatabase database = this.getWritableDatabase();
@@ -210,21 +208,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.delete(TABLE_TRANSACTION, COLUMN_ID+" = ?", new String[]{String.valueOf(id)});
     }
 
-    public void importData(ArrayList<Transaction> list) {
+    public void importDataTransaction(ArrayList<Transaction> list) {
         for (int i = 0; i < list.size(); i++) {
             this.insertData(list.get(i));
         }
     }
 
-    public String exportJson() {
-        String Json = "{\"data\":[";
-        ArrayList<Transaction> list = this.listTransaction();
-        for (int i = 0; i < list.size(); i++) {
-            Json += list.get(i).toJson()+",";
+    public String tableToJsonString(Cursor cursor, String tableName) {
+        String json = "{\""+tableName+"\":[";
+        while (cursor.moveToNext()) {
+            json += "{";
+            for (int i = 0; i < cursor.getColumnCount(); i++) {
+                json += "\""+cursor.getColumnName(i)+"\":\""+cursor.getString(i)+"\",";
+            }
+            json += "},";
+            json = json.replace(",}","}");
         }
-        Json += "]}";
-        Json = Json.replace(",]","]");
-        return Json;
+        json += "]},";
+        json = json.replace(",]","]");
+        return json;
+    }
+
+    public String exportDataToJson() {
+        String json = "{\"budget\":[";
+        json += tableToJsonString(getAllTransaction(), TABLE_TRANSACTION);
+        json += tableToJsonString(getAllProject(), TABLE_PROJECT);
+        json += tableToJsonString(getAllDeposit(), TABLE_DEPOSIT);
+        json += tableToJsonString(getAllUser(), TABLE_USER);
+        json += "{}]}";
+        return json;
+    }
+
+    public void importData(String data, int index) {
+        SQLiteDatabase database = getWritableDatabase();
+
+        try {
+            JSONObject object = new JSONObject(data);
+            JSONArray array = object.getJSONArray("budget");
+            JSONArray listTrans = new JSONArray(array.getJSONObject(index).getString(allTable[index]));
+            database.execSQL("DELETE FROM "+allTable[index]);
+
+            for (int i = 0; i < listTrans.length(); i++) {
+                JSONObject transaction = listTrans.getJSONObject(i);
+                JSONArray keys = transaction.names();
+                ContentValues contentValues = new ContentValues();
+
+                for (int j = 0; j < keys.length(); j++) {
+                    String key = keys.getString(j);
+                    contentValues.put(key, transaction.getString(key));
+                }
+                database.insert(allTable[index], null, contentValues);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("Exception", e.getMessage());
+        }
+
+    }
+
+    public void importAllData(String data) {
+        for(int i = 0; i < allTable.length; i++) {
+            importData(data, i);
+        }
     }
 
     public ArrayList<Transaction> jsonParse(String json) {
@@ -237,20 +283,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String title = data.getString("title");
                 String type = data.getString("type");
                 String amount = data.getString("amount");
-                String date = data.getString("date");
+                String date = utils.dateFomatted(data.getString("date"));
                 list.add(new Transaction(title, amount, type, date));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Collections.sort(list, new Comparator<Transaction>() {
+            @Override
+            public int compare(Transaction transaction, Transaction transaction2) {
+                return Long.valueOf(transaction.getDateFomatted().getTime()).compareTo(transaction2.getDateFomatted().getTime());
+            }
+        });
         return list;
     }
     
-    public void saveFile() {
-        String fileName = "data_new.json";
-        String fileContents = this.exportJson();
+    public void saveFile(String filename) {
+        String fileName = filename+".json";
+        String fileContents = this.exportDataToJson();
         File root = Environment.getExternalStorageDirectory();
-        File dir = new File(root.getAbsolutePath() + "/myBudget");
+        File dir = new File(root.getAbsolutePath() + "/budget");
         dir.mkdirs();
         File file = new File(dir, fileName);
         try {
@@ -264,7 +316,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     public void openFile(String file) {
         deleteAllData();
-        importData(jsonParse(file));
+        importDataTransaction(jsonParse(file));
     }
 
     public Cursor searchTransaction(String id) {

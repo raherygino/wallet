@@ -26,6 +26,13 @@
                 android:text="@string/title"/>
 
             <TextView
+                android:id="@+id/textViewJson"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8dp"
+                android:text="@string/title"/>
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Utilisateur"/>

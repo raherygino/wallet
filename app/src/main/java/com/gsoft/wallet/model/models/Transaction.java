@@ -1,6 +1,12 @@
 package com.gsoft.wallet.model.models;
 
+import static com.gsoft.wallet.utils.Utils.DATE_FORMAT;
+
+import android.annotation.SuppressLint;
 import com.gsoft.wallet.utils.Utils;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Transaction
 {
@@ -9,14 +15,23 @@ public class Transaction
     private final String title;
     private final String type;
     private final String date;
-    public String ICON;
-    public int COLOR;
 
     public Transaction(String nTitle, String nAmount, String nType, String  nDate) {
         this.amount = nAmount;
         this.title = nTitle;
         this.type = nType;
         this.date = nDate;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public Date getDateFomatted() {
+        Date nDate = null;
+        try {
+            nDate = new SimpleDateFormat(DATE_FORMAT).parse(this.date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return nDate;
     }
 
     public void addId(int nId) {
@@ -54,14 +69,5 @@ public class Transaction
     public String getTime() {
         String[] d = this.date.split(" ");
         return d[1];
-    }
-
-    public String toJson() {
-        String json = "{";
-        json += "\"title\":\""+this.title+"\",";
-        json += "\"type\":\""+this.type+"\",";
-        json += "\"amount\":\""+this.amount+"\",";
-        json += "\"date\":\""+this.getFormatedDate()+" "+this.getTime()+"\"}";
-        return json;
     }
 }

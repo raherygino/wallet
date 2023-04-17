@@ -35,6 +35,7 @@ import com.gsoft.wallet.view.activities.AdminActivity;
 import com.gsoft.wallet.view.activities.HomeActivity;
 import com.gsoft.wallet.view.activities.SplashActivity;
 import com.gsoft.wallet.view.dialog.ConfirmDialog;
+import com.gsoft.wallet.view.dialog.ExportDialog;
 import com.gsoft.wallet.view.recyclers.AdapterRecyclerProject;
 import com.gsoft.wallet.view.recyclers.AdapterRecyclerTransaction;
 
@@ -199,7 +200,8 @@ public class TabHome extends Fragment {
 
                 case R.id.export_data:
                     if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        database.saveFile();
+                        ExportDialog dialog = new ExportDialog(context);
+                        dialog.show();
                     } else {
                         ActivityCompat.requestPermissions(((Activity)context), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, getTargetRequestCode());
                     }

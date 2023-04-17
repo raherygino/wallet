@@ -4,20 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
-import com.gsoft.wallet.model.models.Person;
 import com.gsoft.wallet.utils.Utils;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class AdminActivity extends AppCompatActivity {
     Utils utils = new Utils(this);
@@ -37,33 +30,6 @@ public class AdminActivity extends AppCompatActivity {
         createTableFromDatabase(database.getAllDeposit(), tableDeposit);
         createTableFromDatabase(database.getAllProject(), tableProject);
         createTableFromDatabase(database.getAllTransaction(), tableTransaction);
-
-        ArrayList<Person> list = new ArrayList<>();
-        try {
-            list.add(new Person("John", new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse("01-01-2010 12:00:00")));
-            list.add(new Person("Thomas", new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse("01-01-2010 01:00:00")));
-            list.add(new Person("Tom", new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse("01-02-1990 21:00:00")));
-            list.add(new Person("Anderson", new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse("01-02-1990 10:00:00")));
-            list.add(new Person("Smith", new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse("01-03-2000 00:59:59")));
-            list.add(new Person("Doe", new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse("01-03-2000 01:00:00")));
-            Collections.sort(list, new Comparator<Person>() {
-                @Override
-                public int compare(Person person, Person person2) {
-                    return Long.valueOf(person.getBirthdate().getTime()).compareTo(person2.getBirthdate().getTime());
-                }
-            });
-
-            String result = "";
-            for (Person person : list) {
-                result += "Nom: "+person.getName()+"\nDate: "+person.getBirthdate()+"\n";
-            }
-            TextView textViewResult =  findViewById(R.id.result);
-            textViewResult.setText(result);
-
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     private void createTableFromDatabase(Cursor cursor, TableLayout tableLayout) {
@@ -88,6 +54,7 @@ public class AdminActivity extends AppCompatActivity {
             column.setTextSize(8);
             column.setBackgroundResource(R.drawable.back_column);
             column.setPadding(4,4,4,4);
+            column.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             utils.setFont(column, Utils.REGULAR);
             tableRow.addView(column);
         }

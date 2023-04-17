@@ -96,15 +96,15 @@ public class HomeActivity extends AppCompatActivity {
                 uri = data.getData();
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(uri);
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(
-                            inputStream));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                     StringBuilder stringBuilder = new StringBuilder();
                     String line;
                     while ((line = reader.readLine()) != null) {
                         stringBuilder.append(line);
                     }
                     inputStream.close();
-                    database.openFile(stringBuilder.toString());
+                    database.importAllData(stringBuilder.toString());
+                    refreshFragement();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

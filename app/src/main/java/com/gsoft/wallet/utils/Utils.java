@@ -35,6 +35,7 @@ public class Utils{
     public static String SEMI_BOLD = "SemiBold";
     public static String REGULAR = "Regular";
     public static String LIGHT = "Light";
+    public static String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss";
     
     public Utils(Context ctx){ 
         this.context = ctx; 
@@ -115,6 +116,23 @@ public class Utils{
     public Drawable getDrawable(String uri) {
         @SuppressLint("DiscouragedApi") int imageResource = context.getResources().getIdentifier("@drawable/"+uri, null, context.getPackageName());
         return context.getResources().getDrawable(imageResource);
+    }
+
+    public String dateFomatted(String date) {
+        //2023-3-1 1:1:1
+        String fullDate = date.split(" ")[0];
+        String[] fullDates = fullDate.split("-");
+        String year = fullDates[0];
+        String month = formatNumber(Integer.parseInt(fullDates[1]));
+        String day = formatNumber(Integer.parseInt(fullDates[2]));
+
+        String fullTime = date.split(" ")[1];
+        String[] fullTimes = fullTime.split(":");
+        String hour = formatNumber(Integer.parseInt(fullTimes[0]));
+        String min = formatNumber(Integer.parseInt(fullTimes[1]));
+        String sec = formatNumber(Integer.parseInt(fullTimes[2]));
+
+        return day+"-"+month+"-"+year+" "+hour+":"+min+":"+sec;
     }
     
     public String numberFormat(String number) {
