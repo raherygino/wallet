@@ -31,18 +31,20 @@ public class AdapterRecyclerProject  extends RecyclerView.Adapter<AdapterRecycle
     private final Context context;
     private final ArrayList<Project> listProject;
     private final Utils utils;
+    private final int layout;
 
-    public AdapterRecyclerProject(Context ctx,ArrayList<Project> aList) {
+    public AdapterRecyclerProject(Context ctx,ArrayList<Project> aList, int layout) {
         this.context = ctx;
         this.listProject = aList;
         this.utils = new Utils(ctx);
+        this.layout = layout;
     }
 
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(ViewGroup p1, int p2)
     {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_project, p1, false);
+        View view = LayoutInflater.from(context).inflate(layout, p1, false);
         MyHolder myHolder = new MyHolder(view);
         return myHolder;
     }

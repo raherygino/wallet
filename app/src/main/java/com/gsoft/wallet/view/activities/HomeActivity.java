@@ -16,6 +16,8 @@ import com.gsoft.wallet.view.dialog.MenuDialog;
 import com.gsoft.wallet.view.navbar.BottomNav;
 import com.gsoft.wallet.view.recyclers.AdapterViewPager;
 import com.gsoft.wallet.view.tab.TabHome;
+import com.gsoft.wallet.view.tab.TabTransaction;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 42;
     private DatabaseHelper database;
     public TabHome tabHome;
+    public TabTransaction tabTransaction;
     private FloatingActionButton fabAdd;
 
     @Override
@@ -61,10 +64,15 @@ public class HomeActivity extends AppCompatActivity {
     public void refreshFragement() {
         tabHome.refresh();
         tabHome.refreshProject();
+        tabTransaction.refresh();
     }
 
     public void getHomeClass(TabHome tabHome) {
         this.tabHome = tabHome;
+    }
+
+    public void getTransactionClass(TabTransaction tabTransaction) {
+        this.tabTransaction = tabTransaction;
     }
 
     class ViewPagerOnChanger implements ViewPager.OnPageChangeListener {

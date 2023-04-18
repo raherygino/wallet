@@ -37,7 +37,7 @@ public class TabProject extends Fragment {
         ArrayList<Project> listProject = database.listProjectByStat(false);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.context);
         recyclerViewProject.setLayoutManager(layoutManager);
-        AdapterRecyclerProject adapterRecycler = new AdapterRecyclerProject(this.context, listProject);
+        AdapterRecyclerProject adapterRecycler = new AdapterRecyclerProject(this.context, listProject, R.layout.item_project_large);
         recyclerViewProject.setAdapter(adapterRecycler);
         return view;
     }

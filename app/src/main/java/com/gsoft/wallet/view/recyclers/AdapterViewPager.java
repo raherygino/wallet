@@ -30,7 +30,7 @@ public class AdapterViewPager extends FragmentStatePagerAdapter {
             case 2:
                 return new TabProject(context);
             case 3:
-                return new TabProfile();
+                return new TabProfile(context);
             default:
                 return null;
         }

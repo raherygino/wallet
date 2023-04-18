@@ -44,7 +44,6 @@ import java.util.ArrayList;
 public class TabHome extends Fragment {
 
     public TextView home_title, home_username, home_title_balance, home_balance,  home_title_activity, home_title_project, home_income, home_outcome;
-    public ImageView home_btn_settings;
 
     private Utils utils;
     private DatabaseHelper database;
@@ -67,7 +66,6 @@ public class TabHome extends Fragment {
         this.initView(view);
         this.configView();
         this.refresh();
-        this.setViewEvent();
         this.export();
         return view;
     }
@@ -84,7 +82,6 @@ public class TabHome extends Fragment {
     private void initView(View view) {
 
         home_balance = view.findViewById(R.id.home_balance);
-        home_btn_settings = view.findViewById(R.id.home_btn_settings);
         home_title = view.findViewById(R.id.home_title);
         home_title_activity = view.findViewById(R.id.home_title_activity);
         home_title_balance = view.findViewById(R.id.home_title_balance);
@@ -92,7 +89,6 @@ public class TabHome extends Fragment {
         home_username = view.findViewById(R.id.home_username);
         home_income = view.findViewById(R.id.value_income);
         home_outcome = view.findViewById(R.id.value_outcome);
-        home_btn_settings.setOnClickListener(new onClickEvent());
 
         recyclerViewProject = view.findViewById(R.id.recyclerview_project);
         initRecyclerProject(recyclerViewProject);
@@ -107,7 +103,7 @@ public class TabHome extends Fragment {
         listProject = database.listProjectByStat(false);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false);
         recyclerViewProject.setLayoutManager(layoutManager);
-        adapterRecycler = new AdapterRecyclerProject(this.context, listProject);
+        adapterRecycler = new AdapterRecyclerProject(this.context, listProject, R.layout.item_project);
         recyclerViewProject.setAdapter(adapterRecycler);
     }
 
@@ -133,9 +129,6 @@ public class TabHome extends Fragment {
         utils.setFont(home_title_balance, LIGHT);
         utils.setFont(home_title_project, LIGHT);
         utils.setFont(home_username, SEMI_BOLD);
-    }
-    private void setViewEvent() {
-        home_btn_settings.setOnClickListener(new onClickEvent());
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -164,70 +157,5 @@ public class TabHome extends Fragment {
         listProject.clear();
         listProject.addAll(database.listProjectByStat(false));
         adapterRecycler.notifyDataSetChanged();
-    }
-
-    class onClickEvent implements View.OnClickListener
-    {
-        public onClickEvent() {}
-
-        @SuppressLint("NonConstantResourceId")
-        @Override
-        public void onClick(View p1)
-        {
-            utils.btnClick(p1);
-            int id = p1.getId();
-
-            if (id == R.id.home_btn_settings) {
-                PopupMenu popupMenu = new PopupMenu(context, p1);
-                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new onItemClick());
-                popupMenu.show();
-            }
-
-        }
-    }
-    public class onItemClick implements PopupMenu.OnMenuItemClickListener
-    {
-        @SuppressLint("NonConstantResourceId")
-        @Override
-        public boolean onMenuItemClick(MenuItem p1)
-        {
-            HomeActivity homeActivity = (HomeActivity) context;
-            switch (p1.getItemId()) {
-                case R.id.import_data:
-                    homeActivity.showFileChooser();
-                    break;
-
-                case R.id.export_data:
-                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        ExportDialog dialog = new ExportDialog(context);
-                        dialog.show();
-                    } else {
-                        ActivityCompat.requestPermissions(((Activity)context), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, getTargetRequestCode());
-                    }
-                    break;
-
-                case R.id.admin:
-                    homeActivity.startActivity(new Intent(homeActivity, AdminActivity.class));
-                    break;
-
-                case R.id.clear:
-                    ConfirmDialog dialog = new ConfirmDialog(context, utils.getString(R.string.wipe_data), utils.getString(R.string.confirmation_wipe));
-                    dialog.show();
-                    dialog.onCancel(dialog.buttonCancel.getId());
-
-                    dialog.buttonOk.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            database.wipeData();
-                            Activity activity = (Activity) context;
-                            startActivity(new Intent(activity, SplashActivity.class));
-                            activity.finish();
-                        }
-                    });
-                    break;
-            }
-            return true;
-        }
     }
 }
