@@ -12,6 +12,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.gsoft.wallet.R;
 import com.gsoft.wallet.model.database.DatabaseHelper;
 import com.gsoft.wallet.utils.Utils;
+import com.gsoft.wallet.view.dialog.DetailTransDialog;
 import com.gsoft.wallet.view.dialog.MenuDialog;
 import com.gsoft.wallet.view.navbar.BottomNav;
 import com.gsoft.wallet.view.recyclers.AdapterViewPager;
@@ -44,6 +45,8 @@ public class HomeActivity extends AppCompatActivity {
         this.database = new DatabaseHelper(this);
         this.fabAdd = findViewById(R.id.fab_add);
         this.setConfig();
+        DetailTransDialog dialog = new DetailTransDialog(this);
+        dialog.show();
     }
 
     private void setConfig() {

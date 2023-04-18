@@ -19,24 +19,24 @@ import com.gsoft.wallet.utils.Utils;
 
 public class SweetDialog{
     public Dialog dialog;
-    private final Context context;
     private final Activity activity;
     private final Utils utils;
     private final int idLay;
+    private Window window;
+    private Display display;
     
     public SweetDialog(Context ctx, int idLay){
-        this.context = ctx;
-        this.activity = (Activity) context;
-        this.dialog = new Dialog(context);
-        this.utils = new Utils(context);
+        this.activity = (Activity) ctx;
+        this.dialog = new Dialog(ctx);
+        this.utils = new Utils(ctx);
         this.idLay = idLay;
         this.initDialog();
     }
     
     private void initDialog(){
-        Display display = activity.getWindowManager().getDefaultDisplay();
+        display = activity.getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
-        Window window = dialog.getWindow();
+        window = dialog.getWindow();
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.width = width;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;      
@@ -48,6 +48,10 @@ public class SweetDialog{
         window.setLayout(width-70, LayoutParams.WRAP_CONTENT);
         lp.copyFrom(dialog.getWindow().getAttributes());
         dialog.getWindow().setAttributes(lp);
+    }
+
+    public void windowSetLayout() {
+        window.setLayout(display.getWidth() - 70, LayoutParams.MATCH_PARENT);
     }
 
     public View findViewById(int idLayout) {
